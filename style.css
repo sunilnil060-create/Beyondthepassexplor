@@ -202,7 +202,7 @@ input, select, textarea { font-family: inherit; }
 .nav-a:hover             { color: var(--black); }
 .nav-a:hover::after      { width: 100%; }
 
-.hdr-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; position: relative; z-index: 5; }
+.hdr-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; position: relative; z-index: 5; margin-left: auto; }
 .hdr-btn {
   padding: 9px 22px;
   background: var(--black); color: var(--white);
@@ -222,7 +222,7 @@ input, select, textarea { font-family: inherit; }
    MOBILE NAV
 ════════════════════════════════════════════════════ */
 .mob-overlay {
-  display: none; position: fixed; inset: 0; z-index: 800;
+  display: none; position: fixed; inset: 0; z-index: 950;
   background: rgba(0,0,0,0.5);
 }
 .mob-overlay.open  { display: flex; justify-content: flex-end; }
