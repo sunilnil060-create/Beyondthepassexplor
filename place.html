@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Destinations & Places in Bhutan — Ridge & Valley</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --black:#0a0a0a; --black-2:#111111; --black-3:#1a1a1a; --dark:#222222;
+      --mid:#555555; --muted:#888888; --light:#cccccc; --border:#e8e8e8;
+      --off-white:#f5f5f5; --white:#ffffff; --accent:#c0392b;
+      --r:8px; --r-lg:16px; --r-xl:24px;
+      --shadow:0 20px 60px rgba(0,0,0,0.12); --shadow-sm:0 4px 20px rgba(0,0,0,0.07);
+      --t:0.3s cubic-bezier(0.4,0,0.2,1);
+      --ff-display:'Playfair Display',Georgia,serif;
+      --ff-body:'Outfit',system-ui,sans-serif;
+      --btn-bg:#f2f2f2;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--ff-body);background:var(--white);color:var(--black);line-height:1.7;overflow-x:hidden}
+    a{text-decoration:none;color:inherit} ul{list-style:none}
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+
+  /* ═══════════════════════════════════════════════════
+   HEADER (ticker now lives inside the header, above the nav)
+════════════════════════════════════════════════════ */
+:root { --header-h: 148px; }
+
+@media (max-width: 768px) {
+  :root { --header-h: 104px; }
+}
+
+/* ═══════════════════════════════════════════════════
+   HEADER
+════════════════════════════════════════════════════ */
+#header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  padding: 8px 0;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  transition: var(--t);
+}
+#header.scrolled {
+  padding: 6px 0;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.09);
+}
+.hdr-inner {
+  max-width: 100%; margin: 0; padding: 0 32px 0 0;
+  display: flex; align-items: center; gap: 40px;
+}
+
+.hdr-middle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.ticker-bar {
+  width: 100%;
+  overflow: hidden;
+  padding: 6px 14px;
+  margin-bottom: 6px;
+  background: var(--off-white);
+  border-radius: var(--r);
+  border-bottom: 1px solid var(--border);
+}
+.ticker-track { overflow: hidden; white-space: nowrap; }
+.ticker-content {
+  display: inline-flex; align-items: center;
+  animation: tickerScroll 32s linear infinite;
+  will-change: transform;
+}
+.ticker-content span {
+  display: inline-flex; align-items: center;
+  padding: 0 28px;
+  font-size: 0.72rem; color: var(--dark);
+  letter-spacing: 0.01em; white-space: nowrap;
+}
+.ticker-content span::after {
+  content: '—'; margin-left: 28px; color: var(--border);
+}
+.ticker-bar:hover .ticker-content { animation-play-state: paused; }
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 900px) {
+  .hdr-middle { display: none; }
+}
+.logo { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.logo-img {
+  height: 104px;
+  width: 208px;
+  max-width: none;
+  object-fit: contain;
+  object-position: left center;
+  flex-shrink: 0;
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 768px) {
+  .logo-img { height: 68px; width: 136px; }
+}
+.logo-text { display: flex; flex-direction: column; line-height: 1; }
+.logo-name {
+  font-family: var(--ff-display);
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--black); letter-spacing: 0.01em;
+}
+.logo-tag {
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); margin-top: 3px;
+}
+
+.nav { display: flex; align-items: center; gap: 36px; margin: 0 auto; }
+.nav-a {
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.03em;
+  color: var(--dark);
+  position: relative; transition: color 0.25s;
+}
+.nav-a::after {
+  content: ''; position: absolute;
+  bottom: -4px; left: 0; width: 0; height: 2px;
+  background: var(--black); transition: width 0.3s ease;
+}
+.nav-a:hover, .nav-a.active { color: var(--black); }
+.nav-a:hover::after, .nav-a.active::after { width: 100%; }
+
+.hdr-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+
+.burger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+.burger span { display: block; width: 22px; height: 1.5px; background: var(--black); border-radius: 2px; transition: var(--t); }
+.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Header buttons — Plan My Trip + Login (identical size) */
+.hdr-btn,
+.hdr-login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 22px;
+  box-sizing: border-box;
+  background: var(--btn-bg);
+  color: var(--black);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  border: 1.5px solid var(--black);
+  border-radius: var(--r);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--t);
+}
+.hdr-btn:hover,
+.hdr-login-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+/* ═══════════════════════════════════════════════════
+   MOBILE NAV
+════════════════════════════════════════════════════ */
+.mob-overlay {
+  display: none; position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,0.5);
+}
+.mob-overlay.open { display: flex; justify-content: flex-end; }
+.mob-nav {
+  width: min(300px, 88vw);
+  background: var(--white); height: 100%;
+  padding: 32px 28px;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+}
+.mob-overlay.open .mob-nav { transform: translateX(0); }
+.mob-close {
+  align-self: flex-end; width: 36px; height: 36px; border-radius: 50%;
+  background: var(--off-white); color: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; margin-bottom: 32px; transition: var(--t);
+}
+.mob-close:hover { background: var(--black); color: var(--white); }
+.mob-logo {
+  font-family: var(--ff-display);
+  font-size: 1.5rem; color: var(--black); margin-bottom: 36px;
+}
+.mob-links { display: flex; flex-direction: column; flex: 1; }
+.mob-links a {
+  padding: 15px 0; border-bottom: 1px solid var(--border);
+  color: var(--mid); font-size: 0.97rem; transition: color 0.25s;
+}
+.mob-links a:hover { color: var(--black); }
+.mob-cta {
+  display: block; margin-top: 28px; padding: 13px 20px;
+  background: var(--black); color: var(--white);
+  font-size: 0.9rem; font-weight: 600; border-radius: var(--r);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════
+   LOGIN POPUP
+════════════════════════════════════════════════════ */
+.login-popup-wrapper { position: relative; }
+
+.login-popup {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 310px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.16);
+  padding: 22px 22px 18px;
+  z-index: 9999;
+  border: 1px solid rgba(0,0,0,0.07);
+}
+.login-popup.open { display: block; }
+
+.popup-arrow {
+  position: absolute;
+  top: -7px; right: 20px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border-left: 1px solid rgba(0,0,0,0.07);
+  border-top: 1px solid rgba(0,0,0,0.07);
+  transform: rotate(45deg);
+}
+
+.lp-tabs { display: flex; border-bottom: 1px solid #eee; margin-bottom: 16px; }
+.lp-tab {
+  flex: 1; background: none; border: none; padding: 9px;
+  font-size: 13px; cursor: pointer; color: #888;
+  border-bottom: 2px solid transparent;
+  font-family: inherit; transition: 0.2s;
+}
+.lp-tab.active { color: #0a0a0a; border-bottom-color: #0a0a0a; font-weight: 600; }
+
+.fb-login-btn {
+  width: 100%; background: #1877f2; color: #fff;
+  border: none; border-radius: 8px; padding: 10px;
+  font-size: 13px; cursor: pointer; font-weight: 500;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: inherit; transition: background 0.2s;
+}
+.fb-login-btn:hover { background: #166fe5; }
+.fb-login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.lp-or { display: flex; align-items: center; gap: 10px; margin: 12px 0; color: #bbb; font-size: 11px; }
+.lp-or::before, .lp-or::after { content: ''; flex: 1; height: 1px; background: #eee; }
+
+.lp-field { margin-bottom: 10px; }
+.lp-field input {
+  width: 100%; box-sizing: border-box;
+  border: 1.5px solid #e0e0e0; border-radius: 8px;
+  padding: 10px 12px; font-size: 13px; font-family: inherit;
+  outline: none; transition: border-color 0.2s; background: #fafafa;
+}
+.lp-field input:focus { border-color: #0a0a0a; background: #fff; }
+.lp-field input.error { border-color: #e53935; }
+
+.lp-pw-wrap { position: relative; }
+.lp-pw-wrap input { padding-right: 38px; }
+.lp-eye {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: #aaa; font-size: 13px; padding: 2px;
+}
+.lp-eye:hover { color: #555; }
+
+.lp-err { font-size: 11px; color: #e53935; display: block; margin-top: 3px; min-height: 14px; }
+
+.lp-strength { height: 3px; background: #eee; border-radius: 99px; margin-top: 5px; overflow: hidden; }
+.lp-strength-bar { height: 100%; width: 0; border-radius: 99px; transition: width 0.3s, background 0.3s; }
+
+.lp-forgot { display: block; text-align: right; font-size: 11px; color: #888; margin: -4px 0 12px; text-decoration: none; }
+.lp-forgot:hover { color: #0a0a0a; }
+
+.lp-submit { background: var(--btn-bg); color: var(--black); border: 1.5px solid var(--black); width: 100%; padding: 11px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--t); }
+.lp-submit:hover { background: var(--black); color: var(--white); }
+.lp-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.lp-switch { text-align: center; font-size: 12px; color: #888; margin-top: 12px; }
+.lp-switch a { color: #0a0a0a; font-weight: 600; text-decoration: none; }
+
+.lp-status { font-size: 12px; text-align: center; margin-top: 8px; min-height: 16px; font-weight: 500; }
+.lp-status.success { color: #2e7d52; }
+.lp-status.error { color: #e53935; }
+
+.lp-user-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #0a0a0a; color: #fff;
+  font-size: 1.3rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px;
+}
+.lp-user-name { text-align: center; font-weight: 600; font-size: 15px; color: #0a0a0a; margin-bottom: 3px; }
+.lp-user-email { text-align: center; font-size: 12px; color: #888; margin-bottom: 18px; }
+.lp-logout-btn { background: #f5f5f5; color: #0a0a0a; }
+.lp-logout-btn:hover { background: #e0e0e0; }
+
+/* Responsive: hide desktop nav/button, show burger */
+@media (max-width: 768px) {
+  .nav, .hdr-btn { display: none; }
+  .burger { display: flex; }
+}
+    /* ── PAGE HERO ── */
+    .page-hero{background:var(--black);min-height:100vh;padding:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.page-hero::before{content:'';position:absolute;inset:0;background:url('images/Paro.jpg') center/cover no-repeat;opacity:1}
+   .ph-inner{position:relative;z-index:2;text-align:center;padding:40px 32px;border-radius:var(--r-xl);background:linear-gradient(180deg,rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.55) 100%)}
+.ph-eyebrow{font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.85);margin-bottom:14px;display:block;font-weight:700;text-shadow:0 2px 12px rgba(0,0,0,0.6)}
+.ph-title{font-family:var(--ff-display);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:16px;text-shadow:0 4px 20px rgba(0,0,0,0.7)}
+.ph-title em{font-style:italic;color:rgba(255,255,255,0.9)}
+.ph-desc{color:rgba(255,255,255,0.92);font-size:0.92rem;max-width:580px;margin:0 auto;line-height:1.75;font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,0.6)}
+    .ph-desc strong{color:rgba(255,255,255,0.8)}
+    .ph-desc a{color:rgba(255,255,255,0.75);border-bottom:1px solid rgba(255,255,255,0.3);transition:color 0.2s}
+    .ph-desc a:hover{color:var(--white)}
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb{background:var(--off-white);padding:13px 0;border-bottom:1px solid var(--border)}
+    .bc-inner{display:flex;align-items:center;gap:8px;font-size:0.77rem;color:var(--muted)}
+    .bc-inner a{color:var(--muted);transition:color 0.2s}
+    .bc-inner a:hover{color:var(--black)}
+    .bc-inner i{font-size:0.58rem}
+    .bc-inner span{color:var(--black);font-weight:500}
+
+    /* ── DESTINATIONS GRID ── */
+    .dest-section{padding:72px 0 80px;background:var(--white)}
+    .ds-head{text-align:center;margin-bottom:48px}
+    .sec-label{display:block;font-size:0.68rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .sec-title{font-family:var(--ff-display);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:400;color:var(--black);margin-bottom:10px}
+    .sec-title em{font-style:italic}
+    .sec-desc{color:var(--muted);font-size:0.92rem;max-width:540px;margin:0 auto}
+    .sec-desc a{color:var(--black);font-weight:600;border-bottom:1px solid var(--border)}
+    .sec-desc a:hover{border-color:var(--black)}
+
+    .dg{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+
+    .dc{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:var(--t);cursor:pointer;display:flex;flex-direction:column}
+    .dc:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:transparent}
+    .dc-img{position:relative;height:230px;overflow:hidden;background:var(--off-white)}
+    .dc-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;filter:grayscale(15%)}
+    .dc:hover .dc-img img{transform:scale(1.07);filter:grayscale(0%)}
+    .dc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 55%)}
+    .dc-region{position:absolute;top:12px;left:12px;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:rgba(0,0,0,0.52);color:rgba(255,255,255,0.8);backdrop-filter:blur(4px)}
+    .dc-num{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.12);backdrop-filter:blur(6px);color:rgba(255,255,255,0.65);font-size:0.68rem;font-weight:600;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.2)}
+    .dc-name{position:absolute;bottom:0;left:0;right:0;padding:12px 16px}
+    .dc-name h3{font-family:var(--ff-display);font-size:1.3rem;color:var(--white);font-weight:500;line-height:1.2}
+    .dc-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column}
+    .dc-desc{font-size:0.83rem;color:var(--mid);line-height:1.6;margin-bottom:14px;flex:1}
+    .dc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border);gap:8px}
+    .dc-tags{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+    .dc-tag{font-size:0.6rem;padding:3px 8px;background:var(--off-white);color:var(--dark);border-radius:999px;font-weight:500}
+    .dc-btn{padding:8px 16px;font-size:0.75rem;font-weight:600;background:var(--black);color:var(--white);border-radius:var(--r);border:1.5px solid var(--black);transition:var(--t);white-space:nowrap;flex-shrink:0}
+    .dc-btn:hover{background:transparent;color:var(--black)}
+
+    /* ── MODAL ── */
+    .modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.72);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:var(--t)}
+    .modal-overlay.open{opacity:1;visibility:visible}
+    .modal-box{background:var(--white);border-radius:var(--r-xl);max-width:700px;width:100%;max-height:92vh;overflow-y:auto;position:relative;transform:scale(0.94) translateY(20px);transition:var(--t)}
+    .modal-overlay.open .modal-box{transform:scale(1) translateY(0)}
+    .modal-close{position:absolute;top:14px;right:14px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.5);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:0.85rem;transition:var(--t)}
+    .modal-close:hover{background:var(--black)}
+    .m-hero{height:280px;overflow:hidden;border-radius:var(--r-xl) var(--r-xl) 0 0;position:relative;background:var(--off-white)}
+    .m-hero img{width:100%;height:100%;object-fit:cover}
+    .m-hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 55%)}
+    .m-hero-title{position:absolute;bottom:0;left:0;right:0;padding:22px 28px}
+    .m-hero-title p{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:4px}
+    .m-hero-title h2{font-family:var(--ff-display);font-size:2.1rem;color:var(--white);font-weight:500}
+    .m-body{padding:28px}
+    .m-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+    .m-stat{background:var(--off-white);padding:12px 14px;border-radius:var(--r)}
+    .m-stat span{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:3px}
+    .m-stat strong{font-size:0.9rem;color:var(--black)}
+    .m-sec{font-family:var(--ff-display);font-size:1.1rem;font-weight:500;color:var(--black);margin-bottom:10px;margin-top:20px}
+    .m-desc{font-size:0.87rem;color:var(--mid);line-height:1.75}
+    .m-attrs{display:flex;flex-direction:column;gap:7px;margin:12px 0 18px}
+    .m-attr{display:flex;align-items:flex-start;gap:10px;font-size:0.83rem;color:var(--dark)}
+    .m-attr i{color:var(--accent);font-size:0.65rem;margin-top:5px;flex-shrink:0}
+    .m-cta{display:flex;gap:10px;margin-top:22px}
+    .btn-bk{flex:1;padding:13px 20px;background:var(--black);color:var(--white);font-size:0.86rem;font-weight:600;border-radius:var(--r);text-align:center;border:2px solid var(--black);transition:var(--t);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .btn-bk:hover{background:transparent;color:var(--black)}
+    .btn-cl{flex:1;padding:13px 20px;background:transparent;color:var(--black);font-size:0.86rem;font-weight:500;border-radius:var(--r);text-align:center;border:1.5px solid var(--border);transition:var(--t);display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+    .btn-cl:hover{border-color:var(--black)}
+
+    /* ═══════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════ */
+.footer { background: var(--footer-bg); padding: 50px 0; border-top: 1px solid var(--border); }
+.footer-top {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px;
+  padding-bottom: 52px; border-bottom: 1px solid var(--border);
+}
+.footer-logo { font-family: var(--ff-display); font-size: 1.4rem; color: var(--black); display: block; margin-bottom: 14px; }
+.ft-brand p { color: var(--mid); font-size: 0.82rem; line-height: 1.7; max-width: 260px; margin-bottom: 22px; }
+.ft-socials { display: flex; gap: 8px; }
+.ft-socials a {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; color: var(--muted); transition: var(--t);
+}
+.ft-socials a:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+.ft-col h5 { color: var(--black); font-size: 0.82rem; font-weight: 600; margin-bottom: 18px; letter-spacing: 0.04em; }
+.ft-col ul { display: flex; flex-direction: column; gap: 10px; }
+.ft-col ul a { color: var(--mid); font-size: 0.8rem; transition: color 0.25s; }
+.ft-col ul a:hover { color: var(--black); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 0; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom p { color: var(--muted); font-size: 0.75rem; }
+.fb-links { display: flex; gap: 20px; }
+.fb-links a { color: var(--muted); font-size: 0.75rem; transition: color 0.25s; }
+.fb-links a:hover { color: var(--black); }
+
+    .btt{position:fixed;bottom:28px;right:28px;z-index:400;width:44px;height:44px;border-radius:50%;background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:0.85rem;box-shadow:0 4px 16px rgba(0,0,0,0.2);opacity:0;visibility:hidden;transform:translateY(10px);transition:var(--t)}
+    .btt.show{opacity:1;visibility:visible;transform:translateY(0)}
+    .btt:hover{background:var(--dark)}
+
+    .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+    .fade-in.visible{opacity:1;transform:translateY(0)}
+
+    @media(max-width:1100px){.dg{grid-template-columns:repeat(2,1fr)}.footer-top{grid-template-columns:1fr 1fr;gap:32px}}
+    @media(max-width:768px){.nav,.hdr-btn{display:none}.burger{display:flex}.wrap{padding:0 20px}.dg{grid-template-columns:1fr}.m-stats{grid-template-columns:1fr 1fr}.footer-top{grid-template-columns:1fr;gap:28px}.footer-bottom{flex-direction:column;text-align:center}}
+    @media(max-width:520px){.m-stats{grid-template-columns:1fr}.m-cta{flex-direction:column}}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tours.html" class="nav-a active">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="travel-info.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <!-- <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a> -->
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Beyond The Pass</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="wrap ph-inner">
+    <span class="ph-eyebrow"></span>
+    <h1 class="ph-title">Destinations &amp; <em>Places</em> in Bhutan</h1>
+    <p class="ph-desc">
+      Bhutan is divided into 20 districts known as <strong>Dzongkhags</strong>, popular ones among tourists being
+      <a href="#" onclick="openM(1);return false">Paro</a>,
+      <a href="#" onclick="openM(2);return false">Thimphu</a>,
+      <a href="#" onclick="openM(5);return false">Punakha</a> and
+      <a href="#" onclick="openM(11);return false">Bumthang</a>.
+      Regardless, each place offers its own unique experience to the traveler visiting Bhutan.
+    </p>
+  </div>
+</section>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="wrap">
+    <div class="bc-inner">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span>Destinations</span>
+    </div>
+  </div>
+</div>
+
+<!-- DESTINATIONS GRID -->
+<section class="dest-section">
+  <div class="wrap">
+    <div class="ds-head">
+      <span class="sec-label">Sacred Places</span>
+      <h2 class="sec-title">Explore Bhutan's <em>Destinations</em></h2>
+      <p class="sec-desc">From <a href="#" onclick="openM(1);return false">Paro's Tiger's Nest</a> to <a href="#" onclick="openM(11);return false">Bumthang's ancient temples</a> — every corner holds wonder.</p>
+    </div>
+    <div class="dg" id="dg"></div>
+  </div>
+</section>
+
+<!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<button class="btt" id="btt"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="mo">
+  <div class="modal-box">
+    <button class="modal-close" id="mc"><i class="fa-solid fa-xmark"></i></button>
+    <div id="mb"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+const D=[
+  {id:0,name:'Haa',dzong:'Haa Dzong',region:'Western Bhutan',alt:'2,670 m',area:'1,706 km²',best:'May – October',img:'images/Haa.jpg',tags:['Remote','Trekking','Sacred Mountains'],intro:'Two hours drive toward the southwest of Paro valley lies a tiny isolated district of Haa. Only opened to tourists in 2002, Haa offers pristine mountain scenery, ancient temples, and a rare glimpse of unspoiled Bhutanese valley life.',desc:'Framed by three sacred mountains known as Meri Phuensum, the Haa valley remains one of Bhutan\'s most pristine destinations. The White and Black temples — Lhakhang Karpo and Lhakhang Nagpo — hold deep spiritual significance. The Haa Summer Festival celebrates nomadic culture with archery, folk dances, and yak riding. The dramatic Chele La Pass at 3,988m connects Haa to Paro with panoramic Himalayan views.',attrs:['Lhakhang Karpo (White Temple)','Lhakhang Nagpo (Black Temple)','Chele La Pass — 3,988 m','Haa Summer Festival','Wangchuk Lo Dzong','Traditional Nomadic Villages']},
+  {id:1,name:'Paro',dzong:'Rinpung Dzong',region:'Western Bhutan',alt:'2,200 m',area:'1,293 km²',best:'Mar – May · Sep – Nov',img:'images/Paro copy.jpg',tags:["Tiger's Nest",'Cultural','Most Visited'],intro:"Beautifully painted traditional houses, lush rice paddies, and the legendary Tiger's Nest Monastery — Paro is Bhutan's most iconic and visited valley, home to the country's only international airport.",desc:"Paro hosts the legendary Taktsang Monastery, clinging to a sheer cliff 900 meters above the valley floor. The 7th-century Kyichu Lhakhang is one of the oldest temples in Bhutan, believed to have been built by Tibetan emperor Songtsen Gampo. The Rinpung Dzong — 'fortress on a heap of jewels' — stands as a magnificent example of Bhutanese architecture and hosts the spectacular Paro Tshechu festival every spring.",attrs:["Taktsang Monastery (Tiger's Nest)",'Rinpung Dzong','Kyichu Lhakhang (7th century)','National Museum of Bhutan','Drukgyel Dzong Ruins','Paro Tshechu Festival','Ugyen Pelri Palace']},
+  {id:2,name:'Thimphu',dzong:'Tashichho Dzong',region:'Western Bhutan',alt:'2,334 m',area:'1,026 km²',best:'Year-round',img:'images/Thimpu.avif',tags:['Capital City','Culture','Markets'],intro:"Probably the only capital city in the world without traffic lights, Thimphu is a fascinating blend of modernity and deep-rooted Bhutanese tradition — home to the Royal Family and the seat of government.",desc:"Thimphu's imposing Tashichho Dzong serves as the seat of the Royal Government along the Wang Chhu river. The 51-meter golden Buddha Dordenma statue offers panoramic views across the valley. The National Memorial Chorten, built in honour of the third king, is a vibrant hub of daily devotion for locals. The Thimphu Weekend Market along the river is a must for fresh produce, local crafts, and street food.",attrs:['Tashichho Dzong','Buddha Dordenma Statue (51 m)','National Memorial Chorten','Thimphu Weekend Market','Folk Heritage Museum','Motithang Takin Preserve','Thimphu Tshechu Festival']},
+  {id:5,name:'Punakha',dzong:'Punakha Dzong',region:'Western Bhutan',alt:'1,200 m',area:'1,132 km²',best:'Feb – May · Sep – Dec',img:'images/Punakha-Valley.webp',tags:['Former Capital','Scenic','Most Beautiful Dzong'],intro:"Travelling to Punakha is like getting in a time machine and going back to the 17th century. The Punakha Dzong, at the confluence of two rivers, is considered the most beautiful dzong in Bhutan.",desc:"Punakha served as Bhutan's first capital and remains the winter residence of the Je Khenpo (Chief Abbot). The Punakha Dzong, constructed where the Pho Chhu (Father River) and Mo Chhu (Mother River) meet, is a masterpiece of traditional architecture. The valley is lush with rice paddies and orange orchards. The eccentric Chimi Lhakhang — the Fertility Temple of Lama Drukpa Kunley — draws pilgrims from across Bhutan.",attrs:['Punakha Dzong','Chimi Lhakhang (Fertility Temple)','Dochula Pass & 108 Chortens','Mo Chhu River Rafting','Khamsum Yulley Namgyal Chorten','Punakha Suspension Bridge','Punakha Tshechu Festival']},
+  {id:6,name:'Wangdue Phodrang',dzong:'Wangdue Dzong',region:'Western Bhutan',alt:'1,300 m',area:'4,308 km²',best:'October – February',img:'images/Wangdue-Phodrang-Dzong.jpg',tags:['Phobjikha Valley','Black-Necked Cranes','Wildlife'],intro:"Wangdue Phodrang is home to the celebrated Phobjikha Valley — a glacial bowl where endangered black-necked cranes winter each year in one of Bhutan's most magical spectacles.",desc:"The Phobjikha Valley is a designated conservation area and one of Bhutan's most important wildlife sanctuaries. The Black-Necked Crane Festival in November celebrates the arrival of these endangered birds from Tibet. Gangtey Monastery, the largest Nyingmapa monastery in Bhutan, sits on a ridge overlooking the valley. The restored Wangdue Dzong commands a dramatic hilltop position at the junction of two rivers.",attrs:['Phobjikha Valley','Gangtey Goenpa Monastery','Black-Necked Crane Festival','Wangdue Phodrang Dzong','Gogona Village Trek','Rinchengang Village','Khewa Lhakhang']},
+  {id:9,name:'Trongsa',dzong:'Trongsa Dzong',region:'Central Bhutan',alt:'2,180 m',area:'1,807 km²',best:'March – November',img:'images/trongsa-dzong.jpg',tags:['Royal History','Largest Dzong','Historic'],intro:"Situated in central Bhutan, Trongsa is the ancestral seat of Bhutan's Royal Family and home to the magnificent Trongsa Dzong — the largest and most strategically important dzong in the country.",desc:"Trongsa Dzong commands a spectacular position above the Mangde Chhu gorge and was the seat of power of the Wangchuck dynasty before they became the Royal Family. No traveler could historically cross from east to west Bhutan without passing through Trongsa. The Ta Dzong (watchtower) above the main dzong houses the superb Royal Heritage Museum tracing the Wangchuck lineage.",attrs:['Trongsa Dzong (largest in Bhutan)','Ta Dzong — Royal Heritage Museum','Chendebji Chorten','Mangde Chhu River Gorge','Kuenga Rabten Palace','Trongsa Tshechu']},
+  {id:11,name:'Bumthang',dzong:'Jakar Dzong',region:'Central Bhutan',alt:'2,600 m',area:'2,706 km²',best:'March – October',img:'images/Bumthang-Dzong-.jpg',tags:['Spiritual Heartland','Ancient Temples','Cheese & Honey'],intro:"Myth and legacies of great Buddhist saints permeate Bumthang. Bhutan's spiritual heartland is a cluster of four sacred valleys filled with some of the oldest temples in the Himalayas.",desc:"Bumthang comprises four valleys — Chhokor, Tang, Ura, and Chhume — each with sacred sites and distinct character. The 7th-century Jambay Lhakhang and Kurjey Lhakhang (where Guru Rinpoche meditated) are among Bhutan's holiest sites. Bumthang is also famous for its Swiss-inspired cheese factory, honey orchards, the Red Panda Brewery, and the medieval Ura village.",attrs:["Jakar Dzong (Castle of the White Bird)",'Jambay Lhakhang (7th century)','Kurjey Lhakhang','Tamshing Lhakhang','Tang Valley & Ura Village','Swiss Farm Cheese Factory','Red Panda Brewery']},
+  {id:14,name:'Lhuntse',dzong:'Lhuntse Dzong',region:'Eastern Bhutan',alt:'1,400 m',area:'2,892 km²',best:'March – November',img:'images/lhuntse.jpg',tags:['Royal Ancestral Home','Kishuthara Weaving','Remote'],intro:"Lhuentse is the ancestral homeland of Bhutan's Royal Family, popularly known as Kurtoe Valley, renowned for its spectacular cliff-top dzong and exquisite Kishuthara silk weaving.",desc:"The Lhuntse Dzong, spectacularly perched on a rock above the Kuri Chhu river gorge, is one of the most dramatic fortresses in Bhutan. The district is famous for Kishuthara textiles — distinctive raw silk with intricate patterns unique to the region. The remote location has preserved extraordinary cultural traditions.",attrs:['Lhuntse Dzong (cliff-top)','Menbi Lhakhang','Kuri Chhu River','Kishuthara Weaving Villages','Khoma Weaving Village','Gangzur Village']},
+  {id:15,name:'Mongar',dzong:'Mongar Dzong',region:'Eastern Bhutan',alt:'1,600 m',area:'1,947 km²',best:'March – November',img:'images/mongar.jpg',tags:['Gateway East','Trans-Bhutan Trail','Bamboo Crafts'],intro:"A drive from Bumthang to Mongar passes through luscious rhododendron forests with spectacular mountain views. Mongar is the main hub and gateway to eastern Bhutan.",desc:"Mongar Dzong overlooks the clean and well-kept town. The nearby Drametse Monastery — a UNESCO Intangible Cultural Heritage site — is origin of the famous Drametse Nga Cham drum dance. Mongar sits on the Trans-Bhutan Trail and serves as a natural staging point for exploring the rich cultural landscape of the east.",attrs:['Mongar Dzong','Drametse Monastery (UNESCO)','Kori La Pass (2,394 m)','Sengor Village','Trans-Bhutan Trail','Drametse Nga Cham Dance']}
+];
+
+/* RENDER CARDS */
+function render(){
+  const g=document.getElementById('dg');
+  g.innerHTML=D.map((d,i)=>`
+    <div class="dc fade-in" data-id="${d.id}" style="transition-delay:${(i%3)*80}ms">
+      <div class="dc-img">
+        <img src="${d.img}" alt="${d.name}" loading="lazy" onerror="this.style.background='#f0ede8'"/>
+        <div class="dc-ov"></div>
+        <span class="dc-num">${String(d.id+1).padStart(2,'0')}</span>
+        <div class="dc-name"><h3>${d.name}</h3></div>
+      </div>
+      <div class="dc-body">
+        <p class="dc-desc">${d.intro.substring(0,140)}…</p>
+        <div class="dc-foot">
+          <div class="dc-tags">${d.tags.slice(0,2).map(t=>`<span class="dc-tag">${t}</span>`).join('')}</div>
+          <button class="dc-btn" data-id="${d.id}">Explore →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  g.querySelectorAll('.dc,.dc-btn').forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.stopPropagation();
+      openM(parseInt(el.dataset.id??el.closest('.dc').dataset.id));
+    });
+  });
+  obs();
+}
+
+/* MODAL */
+function openM(id){
+  const d=D.find(x=>x.id===id);if(!d)return;
+  document.getElementById('mb').innerHTML=`
+    <div class="m-hero"><img src="${d.img}" alt="${d.name}" onerror="this.style.background='#f0ede8'"/>
+      <div class="m-hero-ov"></div>
+      <div class="m-hero-title"><p>${d.dzong}</p><h2>${d.name}</h2></div>
+    </div>
+    <div class="m-body">
+      <div class="m-stats">
+        <div class="m-stat"><span>Altitude</span><strong>${d.alt}</strong></div>
+        <div class="m-stat"><span>Area</span><strong>${d.area}</strong></div>
+        <div class="m-stat"><span>Best Time</span><strong>${d.best}</strong></div>
+      </div>
+      <h3 class="m-sec">About ${d.name}</h3>
+      <p class="m-desc">${d.desc}</p>
+      <h3 class="m-sec">Top Attractions</h3>
+      <div class="m-attrs">${d.attrs.map(a=>`<div class="m-attr"><i class="fa-solid fa-location-dot"></i><span>${a}</span></div>`).join('')}</div>
+      <div class="m-cta">
+        <a href="index.html#contact" class="btn-bk" onclick="closeM()"><i class="fa-solid fa-paper-plane"></i> Plan a Trip Here</a>
+        <button class="btn-cl" onclick="closeM()"><i class="fa-solid fa-xmark"></i> Close</button>
+      </div>
+    </div>`;
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+window.openM=openM;
+function closeM(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
+window.closeM=closeM;
+document.getElementById('mc').addEventListener('click',closeM);
+document.getElementById('mo').addEventListener('click',e=>{if(e.target===document.getElementById('mo'))closeM();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+
+/* FADE (local — only used for the destination cards render below) */
+function obs(){
+  const o=new IntersectionObserver((en,ob)=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ob.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.fade-in:not(.obs)').forEach(el=>{el.classList.add('obs');o.observe(el);});
+}
+render();setTimeout(obs,80);
+/* Back-to-top, ticker scroll, and mobile nav are all handled by script.js below —
+   removed here to avoid redeclaring const btt / const burger, which was
+   crashing script.js and breaking login on this page. */
+</script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bhutan Festival Calendar 2026 — Ridge & Valley Bhutan Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       FESTIVAL CALENDAR — page-specific styles
+    ════════════════════════════════════════════════════ */
+/* ---- BIG HERO ---- */
+    .fc-hero { color: #888; margin-top: 12px; }
+.lp-switch a { color: #0a0a0a; font-weight: 600; text-decoration: none; }
+
+.lp-status { font-size: 12px; text-align: center; margin-top: 8px; min-height: 16px; font-weight: 500; }
+.lp-status.success { color: #2e7d52; }
+.lp-status.error { color: #e53935; }
+
+.lp-user-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #0a0a0a; color: #fff;
+  font-size: 1.3rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px;
+}
+.lp-user-name { text-align: center; font-weight: 600; font-size: 15px; color: #0a0a0a; margin-bottom: 3px; }
+.lp-user-email { text-align: center; font-size: 12px; color: #888; margin-bottom: 18px; }
+.lp-logout-btn { background: #f5f5f5; color: #0a0a0a; }
+.lp-logout-btn:hover { background: #e0e0e0; }
+
+/* Responsive: hide desktop nav/button, show burger */
+@media (max-width: 768px) {
+  .nav, .hdr-btn { display: none; }
+  .burger { display: flex; }
+}
+    /* ---- BIG HERO ---- */
+    .fc-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .fc-hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      background: var(--black-3);
+      animation: kenBurns 9s ease-in-out forwards;
+    }
+    .fc-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.14) 38%, rgba(0,0,0,0.76) 100%);
+    }
+    .fc-hero-body { position: relative; z-index: 2; text-align: center; padding: 80px 24px 40px; animation: fadeUp 1s ease 0.3s both; }
+    .fc-hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 22px; display: block; }
+    .fc-hero h1 { font-family: var(--ff-display); font-size: clamp(2.6rem, 7vw, 5.2rem); font-weight: 400; color: var(--white); line-height: 0.98; margin-bottom: 22px; letter-spacing: -0.01em; }
+    .fc-hero h1 em { font-style: italic; font-weight: 500; color: var(--light); }
+    .fc-hero p { color: rgba(255,255,255,0.75); font-size: 1.08rem; max-width: 580px; margin: 0 auto 8px; line-height: 1.8; }
+    .fc-hero-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; padding: 10px 24px; margin-top: 26px; font-size: 0.85rem; color: var(--white); font-weight: 500; animation: fadeUp 1s ease 0.6s both; }
+    .fc-hero-badge strong { font-family: var(--ff-display); font-style: italic; }
+    .fc-hero-scroll { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; color: rgba(255,255,255,0.55); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; animation: fadeUp 1s ease 0.9s both; }
+    .fc-hero-scroll i { font-size: 0.9rem; animation: bounceDown 1.8s ease-in-out infinite; }
+    @keyframes bounceDown { 0%,100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
+
+    /* ---- Breadcrumb ---- */
+    .crumb-bar { position: sticky; top: 72px; z-index: 850; background: var(--black); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .crumb-bar .wrap { padding: 13px 32px; }
+    .info-crumb { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 8px; }
+    .info-crumb a { color: rgba(255,255,255,0.55); transition: color 0.25s; }
+    .info-crumb a:hover { color: var(--white); }
+    .info-crumb .current { color: var(--white); }
+
+    /* ---- Stat banner ---- */
+    .fc-stat-sec { background: var(--black); padding: 60px 0; }
+    .fc-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .fc-stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-xl); padding: 26px 22px; text-align: center; transition: var(--t); }
+    .fc-stat-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-6px); }
+    .fs-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; color: var(--white); font-size: 1.05rem; }
+    .fs-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .fs-value { font-family: var(--ff-display); font-size: 1.6rem; color: var(--white); font-weight: 500; line-height: 1.2; }
+    .fs-value small { font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+
+    /* ---- Filter bar ---- */
+    .fc-filter-sec { background: var(--white); padding: 60px 0 0; }
+    .fc-filter-head { text-align: center; margin-bottom: 34px; }
+    .fc-filter-head .sec-label { display:block; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .fc-filter-head .sec-title { font-family: var(--ff-display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
+    .fc-filter-head .sec-title em { font-style: italic; font-weight: 500; }
+    .fc-filter-head p { color: var(--muted); font-size: 0.96rem; max-width: 560px; margin: 0 auto; }
+
+    .fc-filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 30px 0 8px; }
+    .fc-fbtn {
+      position: relative; overflow: hidden;
+      padding: 10px 20px; border-radius: 999px; border: 1.5px solid var(--border);
+      background: var(--white); color: var(--dark); font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.02em; cursor: pointer; transition: var(--t);
+    }
+    .fc-fbtn::before {
+      content: ''; position: absolute; inset: 0; background: var(--black);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); z-index: 0;
+    }
+    .fc-fbtn span { position: relative; z-index: 1; }
+    .fc-fbtn:hover { border-color: var(--black); color: var(--white); }
+    .fc-fbtn:hover::before { transform: scaleX(1); }
+    .fc-fbtn.active { background: var(--black); border-color: var(--black); color: var(--white); }
+    .fc-fbtn.active::before { transform: scaleX(1); }
+    .fc-fbtn .cnt { opacity: 0.55; font-weight: 400; margin-left: 4px; }
+
+    .fc-search-wrap { max-width: 420px; margin: 8px auto 0; position: relative; }
+    .fc-search-wrap i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; }
+    #fcSearch {
+      width: 100%; padding: 13px 18px 13px 44px; border-radius: 999px; border: 1.5px solid var(--border);
+      font-size: 0.88rem; font-family: inherit; color: var(--dark); transition: var(--t); background: var(--off-white);
+    }
+    #fcSearch:focus { outline: none; border-color: var(--black); background: var(--white); box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
+
+    /* ---- Festival grid ---- */
+    .fc-grid-sec { background: var(--white); padding: 44px 0 90px; }
+    .fc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .fc-empty { display: none; text-align: center; padding: 60px 20px; color: var(--muted); font-size: 0.95rem; }
+    .fc-empty.show { display: block; }
+    .fc-empty i { font-size: 1.8rem; margin-bottom: 12px; display: block; color: var(--border); }
+
+    .fc-card {
+      position: relative; border: 1px solid var(--border); border-radius: var(--r-xl);
+      padding: 26px 24px 24px; background: var(--white); overflow: hidden; cursor: default;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .fc-card::after {
+      content: ''; position: absolute; top: -60%; right: -30%; width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,0,0,0.05), transparent 70%);
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    .fc-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: transparent; }
+    .fc-card:hover::after { opacity: 1; }
+    .fc-card.past { opacity: 0.5; }
+    .fc-card.past:hover { opacity: 0.75; }
+
+    .fc-card-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; position: relative; z-index: 1; }
+    .fc-date-badge {
+      flex-shrink: 0; width: 60px; height: 64px; border-radius: var(--r-lg); background: var(--black);
+      color: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: var(--t);
+    }
+    .fc-card:hover .fc-date-badge { background: var(--accent, #c0392b); transform: rotate(-4deg) scale(1.05); }
+    .fc-date-badge .dd { font-family: var(--ff-display); font-size: 1.5rem; font-weight: 500; line-height: 1; }
+    .fc-date-badge .mm { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-top: 3px; }
+
+    .fc-card-titles { flex: 1; min-width: 0; }
+    .fc-month-pill { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); background: var(--off-white); padding: 3px 9px; border-radius: 999px; margin-bottom: 8px; }
+    .fc-card-titles h3 { font-family: var(--ff-display); font-size: 1.2rem; font-weight: 500; color: var(--black); line-height: 1.25; }
+
+    .fc-venue { display: flex; align-items: flex-start; gap: 8px; font-size: 0.83rem; color: var(--mid); line-height: 1.6; margin-bottom: 14px; position: relative; z-index: 1; }
+    .fc-venue i { color: var(--muted); margin-top: 3px; flex-shrink: 0; font-size: 0.78rem; }
+
+    .fc-card-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .fc-duration { font-size: 0.76rem; color: var(--dark); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .fc-duration i { color: var(--muted); font-size: 0.7rem; }
+    .fc-status { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+    .fc-status.upcoming { background: rgba(255,216,117,0.25); color: #8a6d00; }
+    .fc-status.past { background: var(--off-white); color: var(--muted); }
+
+    /* ---- Popular places (identical sizing/design to visa.html / best-time-to-visit.html) ---- */
+    .btv-places { background: var(--off-white); padding: 80px 0; margin-top: 20px; }
+    .vp-head { text-align: center; margin-bottom: 48px; }
+    .vp-head .sec-label { display:block; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .vp-head .sec-title { font-family: var(--ff-display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
+    .vp-head .sec-title em { font-style: italic; font-weight: 500; }
+    .vp-head p { color: var(--muted); font-size: 0.96rem; max-width: 520px; margin: 0 auto; }
+
+    .btv-place-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .btv-place-card { position: relative; border-radius: var(--r-lg); overflow: hidden; cursor: pointer; height: 380px; transition: var(--t); background: var(--black-2); }
+    .btv-place-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.28); }
+    .btv-place-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; filter: grayscale(30%); }
+    .btv-place-card:hover img { transform: scale(1.09); filter: grayscale(0%); }
+    .btv-place-veil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 55%); }
+    .btv-place-num { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.14); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.85); font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+    .btv-place-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; }
+    .btv-place-region { font-size: 0.64rem; color: rgba(255,255,255,0.5); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+    .btv-place-name { font-family: var(--ff-display); font-size: 1.55rem; color: var(--white); font-weight: 500; line-height: 1.2; margin-bottom: 8px; }
+    .btv-place-desc { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 14px; }
+    .btv-place-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: var(--white); border-bottom: 1.5px solid rgba(255,255,255,0.5); padding-bottom: 2px; transition: var(--t); }
+    .btv-place-card:hover .btv-place-link { border-color: var(--white); gap: 11px; }
+    .vp-more { text-align: center; margin-top: 44px; }
+
+    @media (max-width: 1100px) {
+      .fc-stat-grid { grid-template-columns: 1fr 1fr; }
+      .fc-grid { grid-template-columns: 1fr 1fr; }
+      .btv-place-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .fc-hero { min-height: 82vh; }
+      .fc-grid { grid-template-columns: 1fr; }
+      .fc-stat-grid { grid-template-columns: 1fr 1fr; }
+      .btv-place-grid { grid-template-columns: 1fr; }
+      .btv-places { padding: 56px 0; }
+      .fc-filter-sec { padding: 44px 0 0; }
+    }
+  </style>
+</head>
+<body>
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a active">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Ridge & Valley</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+  
+   
+
+  <!-- BIG HERO -->
+  <section class="fc-hero">
+    <img src="images/p3.jpg" alt="Bhutan hero" class="fc-hero-bg">
+    <div class="fc-hero-overlay"></div>
+    <div class="fc-hero-body">
+      <!-- <span class="fc-hero-eyebrow">Dzongkhag Festivals · 2026 </span> -->
+      <!-- <h1>Festival<br/><em>Calendar</em></h1> -->
+      <p>Masked dances, sacred thongdrols, and centuries-old rituals — every Tshechu, Drubchen, and celebration happening across Bhutan's dzongkhags in 2026.</p>
+      <div class="fc-hero-badge"><i class="fa-solid fa-masks-theater" style="color:#ffd875"></i> 43 Festivals Across 20 Dzongkhags</div>
+    </div>
+    <div class="fc-hero-scroll"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+ 
+
+  <!-- STATS -->
+  <section class="fc-stat-sec">
+    <div class="wrap">
+      <div class="fc-stat-grid">
+        <div class="fc-stat-card">
+          <div class="fs-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <div class="fs-label">Total Festivals</div>
+          <div class="fs-value" id="statTotal">43</div>
+        </div>
+        <div class="fc-stat-card">
+          <div class="fs-icon"><i class="fa-solid fa-drum"></i></div>
+          <div class="fs-label">Busiest Month</div>
+          <div class="fs-value" style="font-size:1.3rem;" id="statBusiest">September</div>
+        </div>
+        <div class="fc-stat-card">
+          <div class="fs-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="fs-label">Dzongkhags Covered</div>
+          <div class="fs-value">20 <small>of 20 districts</small></div>
+        </div>
+        <div class="fc-stat-card">
+          <div class="fs-icon"><i class="fa-solid fa-star"></i></div>
+          <div class="fs-label">Next Up</div>
+          <div class="fs-value" style="font-size:1.15rem;" id="statNext">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="fc-filter-sec">
+    <div class="wrap">
+      <div class="fc-filter-head">
+        <span class="sec-label">Plan Around a Tshechu</span>
+        <h2 class="sec-title">Every Festival, <em>Every Dzongkhag</em></h2>
+        <p>Filter by month or search a festival, town, or dzong to build your trip around Bhutan's living traditions.</p>
+      </div>
+      <div class="fc-filters" id="fcFilters">
+        <button class="fc-fbtn active" data-m="all"><span>All Months <span class="cnt">(43)</span></span></button>
+        <button class="fc-fbtn" data-m="Feb"><span>February <span class="cnt">(3)</span></span></button>
+        <button class="fc-fbtn" data-m="Mar"><span>March <span class="cnt">(8)</span></span></button>
+        <button class="fc-fbtn" data-m="Apr"><span>April <span class="cnt">(3)</span></span></button>
+        <button class="fc-fbtn" data-m="Jun"><span>June <span class="cnt">(2)</span></span></button>
+        <button class="fc-fbtn" data-m="Sep"><span>September <span class="cnt">(8)</span></span></button>
+        <button class="fc-fbtn" data-m="Oct"><span>October <span class="cnt">(7)</span></span></button>
+        <button class="fc-fbtn" data-m="Nov"><span>November <span class="cnt">(7)</span></span></button>
+        <button class="fc-fbtn" data-m="Dec"><span>December <span class="cnt">(5)</span></span></button>
+      </div>
+      <div class="fc-search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="fcSearch" placeholder="Search festival, town or dzong…"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="fc-grid-sec">
+    <div class="wrap">
+      <div class="fc-grid" id="fcGrid">
+        <div class="fc-card past" data-month="Feb" data-name="lhamoi dromchhen" data-venue="trongsa dzong, trongsa">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">22</span><span class="mm">Feb</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Feb 2026</span>
+              <h3>Lhamoi Dromchhen</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Trongsa Dzong, Trongsa</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>22 Feb – 24 Feb &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Feb" data-name="punakha dromchoe" data-venue="punakha dzong, punakha">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">24</span><span class="mm">Feb</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Feb 2026</span>
+              <h3>Punakha Dromchoe</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Punakha Dzong, Punakha</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>24 Feb – 26 Feb &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Feb" data-name="punakha tshechu" data-venue="punakha dzong, punakha">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Feb</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Feb 2026</span>
+              <h3>Punakha Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Punakha Dzong, Punakha</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Feb – 1 Mar &middot; 4 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="tharpaling thongdrol" data-venue="tharpaling lhakhang, chumi, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">03</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Tharpaling Thongdrol</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Tharpaling Lhakhang, Chumi, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>3 Mar &middot; 1 day</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="chhorten kora" data-venue="chorten kora, trashiyangtshe">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">03</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Chhorten Kora</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Chorten Kora, Trashiyangtshe</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>3 Mar – 19 Mar &middot; 17 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="tangsibi mani" data-venue="tangsibi lhakhang, ura, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">04</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Tangsibi Mani</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Tangsibi Lhakhang, Ura, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>4 Mar – 6 Mar &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="gomphukora" data-venue="gom kora lhakhang, trashiyangtshe">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Gomphukora</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Gom Kora Lhakhang, Trashiyangtshe</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Mar – 28 Mar &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="talo tshechu" data-venue="talo gonpa, punakha">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Talo Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Talo Gonpa, Punakha</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Mar – 28 Mar &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="gasa tshechu" data-venue="gasa dzong, gasa">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Gasa Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Gasa Dzong, Gasa</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Mar – 28 Mar &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="zhemgang tshechu" data-venue="zhemgang dzong, zhemgang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Zhemgang Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Zhemgang Dzong, Zhemgang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Mar – 28 Mar &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Mar" data-name="paro tshechu" data-venue="rinpung dzong, paro (thongdrel on final day)">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">29</span><span class="mm">Mar</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Mar 2026</span>
+              <h3>Paro Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Rinpung Dzong, Paro (Thongdrel on final day)</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>29 Mar – 2 Apr &middot; 5 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Apr" data-name="rhododendron festival" data-venue="lamperi botanical park, thimphu">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">13</span><span class="mm">Apr</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Apr 2026</span>
+              <h3>Rhododendron Festival</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Lamperi Botanical Park, Thimphu</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>13 Apr – 14 Apr &middot; 2 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Apr" data-name="domkhar tshechu" data-venue="domkhar, chumi, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Apr</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Apr 2026</span>
+              <h3>Domkhar Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Domkhar, Chumi, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Apr – 28 Apr &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Apr" data-name="ura yakchoe" data-venue="ura lhakhang, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">28</span><span class="mm">Apr</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Apr 2026</span>
+              <h3>Ura Yakchoe</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Ura Lhakhang, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>28 Apr – 2 May &middot; 5 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Jun" data-name="nimalung tshechu" data-venue="nimalung dratshang, chumi, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">22</span><span class="mm">Jun</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Jun 2026</span>
+              <h3>Nimalung Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Nimalung Dratshang, Chumi, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>22 Jun – 24 Jun &middot; 3 days</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card past" data-month="Jun" data-name="kurjey tshechu" data-venue="kurjey lhakhang, choekhor, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">24</span><span class="mm">Jun</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Jun 2026</span>
+              <h3>Kurjey Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Kurjey Lhakhang, Choekhor, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>24 Jun &middot; 1 day</span>
+            <span class="fc-status past">Past</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="tour of the dragon" data-venue="bumthang to thimphu (mountain bike race)">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">05</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Tour of the Dragon</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Bumthang to Thimphu (Mountain Bike Race)</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>5 Sep &middot; 1 day</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="thimphu drubchen" data-venue="tashichho dzong, thimphu">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">17</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Thimphu Drubchen</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Tashichho Dzong, Thimphu</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>17 Sep &middot; 1 day</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="haa tshechu" data-venue="lhakhang karpo, haa">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">19</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Haa Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Lhakhang Karpo, Haa</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>19 Sep – 21 Sep &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="wangdue tshechu" data-venue="wangdue phodrang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">19</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Wangdue Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Wangdue Phodrang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>19 Sep – 21 Sep &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="tamshing phala chhoepa" data-venue="tamshing lhakhang, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">21</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Tamshing Phala Chhoepa</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Tamshing Lhakhang, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>21 Sep – 23 Sep &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="thimphu tshechu" data-venue="tashichho dzong, thimphu">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">21</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Thimphu Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Tashichho Dzong, Thimphu</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>21 Sep – 23 Sep &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="gangtey tshechu" data-venue="gangtey gonpa, wangdue phodrang (thongdrel on final day)">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">24</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Gangtey Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Gangtey Gonpa, Wangdue Phodrang (Thongdrel on final day)</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>24 Sep – 26 Sep &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Sep" data-name="thangbi mewang" data-venue="thangbi lhakhang, choekhor, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Sep</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Sep 2026</span>
+              <h3>Thangbi Mewang</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Thangbi Lhakhang, Choekhor, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Sep – 27 Sep &middot; 2 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="jhomolhari mountain festival" data-venue="dangochong, thimphu">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">14</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Jhomolhari Mountain Festival</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Dangochong, Thimphu</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>14 Oct – 15 Oct &middot; 2 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="jakar tshechu" data-venue="jakar dzong, choekhor, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">18</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Jakar Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Jakar Dzong, Choekhor, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>18 Oct – 21 Oct &middot; 4 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="pemagatshel tshechu" data-venue="pemagatshel dzong, pemagatshel (thongdrel on final day)">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">19</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Pemagatshel Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Pemagatshel Dzong, Pemagatshel (Thongdrel on final day)</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>19 Oct – 21 Oct &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="chhukha tshechu" data-venue="chhukha dzong, chhukha">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">19</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Chhukha Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Chhukha Dzong, Chhukha</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>19 Oct – 21 Oct &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="dechenphu tshechu" data-venue="dechenphu lhakhang, thimphu">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">21</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Dechenphu Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Dechenphu Lhakhang, Thimphu</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>21 Oct &middot; 1 day</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="jambay lhakhang drup" data-venue="jambay lhakhang, choekhor, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">26</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Jambay Lhakhang Drup</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Jambay Lhakhang, Choekhor, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>26 Oct – 29 Oct &middot; 4 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Oct" data-name="traakar duchhoed" data-venue="traakar lhakhang, chumi, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">27</span><span class="mm">Oct</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Oct 2026</span>
+              <h3>Traakar Duchhoed</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Traakar Lhakhang, Chumi, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>27 Oct – 29 Oct &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="black-necked crane festival" data-venue="gangtey gonpa, phobjikha, wangdue phodrang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">11</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Black-Necked Crane Festival</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Gangtey Gonpa, Phobjikha, Wangdue Phodrang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>11 Nov &middot; 1 day</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="goenpai drupchen" data-venue="trongsa dzong, trongsa">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">14</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Goenpai Drupchen</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Trongsa Dzong, Trongsa</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>14 Nov – 16 Nov &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="mongar tshechu" data-venue="mongar dzong, mongar">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">17</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Mongar Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Mongar Dzong, Mongar</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>17 Nov – 19 Nov &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="phuntsholing tshechu" data-venue="phuntsholing, chhukha">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">17</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Phuntsholing Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Phuntsholing, Chhukha</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>17 Nov – 19 Nov &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="trashigang tshechu" data-venue="trashigang dzong, trashigang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">18</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Trashigang Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Trashigang Dzong, Trashigang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>18 Nov – 20 Nov &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="jambay lhakhang singye cham" data-venue="jambay lhakhang, choekhor, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">24</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Jambay Lhakhang Singye Cham</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Jambay Lhakhang, Choekhor, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>24 Nov &middot; 1 day</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Nov" data-name="nalakhar tshechu" data-venue="ngaa lhakhang, choekhor, bumthang">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">24</span><span class="mm">Nov</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Nov 2026</span>
+              <h3>Nalakhar Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Ngaa Lhakhang, Choekhor, Bumthang</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>24 Nov – 26 Nov &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Dec" data-name="druk wangyel tshechu" data-venue="dochula, thimphu">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">13</span><span class="mm">Dec</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Dec 2026</span>
+              <h3>Druk Wangyel Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Dochula, Thimphu</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>13 Dec &middot; 1 day</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Dec" data-name="trongsa tshechu" data-venue="trongsa dzong, trongsa (thongdrel on final day)">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">17</span><span class="mm">Dec</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Dec 2026</span>
+              <h3>Trongsa Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Trongsa Dzong, Trongsa (Thongdrel on final day)</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>17 Dec – 21 Dec &middot; 5 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Dec" data-name="lhuentse tshechu" data-venue="lhuentse dzong, lhuentse (thongdrel on final day)">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">17</span><span class="mm">Dec</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Dec 2026</span>
+              <h3>Lhuentse Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Lhuentse Dzong, Lhuentse (Thongdrel on final day)</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>17 Dec – 21 Dec &middot; 5 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Dec" data-name="samdrup jongkhar tshechu" data-venue="samdrup jongkhar">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">22</span><span class="mm">Dec</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Dec 2026</span>
+              <h3>Samdrup Jongkhar Tshechu</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Samdrup Jongkhar</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>22 Dec – 24 Dec &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+        <div class="fc-card" data-month="Dec" data-name="nabji lhakhang drup" data-venue="nabji lhakhang, nabji, trongsa">
+          <div class="fc-card-top">
+            <div class="fc-date-badge"><span class="dd">24</span><span class="mm">Dec</span></div>
+            <div class="fc-card-titles">
+              <span class="fc-month-pill">Dec 2026</span>
+              <h3>Nabji Lhakhang Drup</h3>
+            </div>
+          </div>
+          <div class="fc-venue"><i class="fa-solid fa-location-dot"></i><span>Nabji Lhakhang, Nabji, Trongsa</span></div>
+          <div class="fc-card-foot">
+            <span class="fc-duration"><i class="fa-regular fa-clock"></i>24 Dec – 26 Dec &middot; 3 days</span>
+            <span class="fc-status upcoming">Upcoming</span>
+          </div>
+        </div>
+      </div>
+      <div class="fc-empty" id="fcEmpty"><i class="fa-solid fa-drum-steelpan"></i>No festivals match your search — try another month or keyword.</div>
+    </div>
+  </section>
+
+  <!-- POPULAR PLACES (same design/sizing as visa.html & best-time-to-visit.html) -->
+  <section class="btv-places">
+    <div class="wrap">
+      <div class="vp-head">
+        <span class="sec-label">Time It Right</span>
+        <h2 class="sec-title">Popular Places to <em>Visit</em></h2>
+        <p>A few favourites worth building your festival itinerary around.</p>
+      </div>
+
+      <div class="btv-place-grid">
+        <a href="place.html" class="btv-place-card">
+          <img src="images/Paro copy.jpg" alt="Paro" onerror="this.style.background='#1a1a1a'">
+          <div class="btv-place-veil"></div>
+          <span class="btv-place-num">01</span>
+          <div class="btv-place-info">
+            <div class="btv-place-region">Western Bhutan</div>
+            <div class="btv-place-name">Paro</div>
+            <p class="btv-place-desc">Home to the Paro Tshechu, one of Bhutan's most spectacular festivals, held every spring.</p>
+            <span class="btv-place-link">Explore Paro <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="btv-place-card">
+          <img src="images/Thimpu.avif" alt="Thimphu" onerror="this.style.background='#1a1a1a'">
+          <div class="btv-place-veil"></div>
+          <span class="btv-place-num">02</span>
+          <div class="btv-place-info">
+            <div class="btv-place-region">Western Bhutan</div>
+            <div class="btv-place-name">Thimphu</div>
+            <p class="btv-place-desc">The capital hosts the Thimphu Tshechu and Drubchen — two of the country's grandest celebrations.</p>
+            <span class="btv-place-link">Explore Thimphu <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="btv-place-card">
+          <img src="images/Bumthang-Dzong-.jpg" alt="Bumthang" onerror="this.style.background='#1a1a1a'">
+          <div class="btv-place-veil"></div>
+          <span class="btv-place-num">03</span>
+          <div class="btv-place-info">
+            <div class="btv-place-region">Central Bhutan</div>
+            <div class="btv-place-name">Bumthang</div>
+            <p class="btv-place-desc">Bhutan's spiritual heartland hosts more festivals than any other valley, from Nimalung to Jambay Lhakhang Drup.</p>
+            <span class="btv-place-link">Explore Bumthang <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="vp-more">
+        <a href="place.html" class="btn-primary dark">See All Destinations <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="script.js"></script>
+  <script>
+    'use strict';
+
+    /* ---- Fallback header/mobile-nav/scroll behavior ---- */
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+      document.getElementById('btt').classList.toggle('show', window.scrollY > 500);
+    });
+    const burger = document.getElementById('burger');
+    const mobOverlay = document.getElementById('mobOverlay');
+    const mobClose = document.getElementById('mobClose');
+    burger?.addEventListener('click', () => { mobOverlay.classList.add('open'); burger.classList.add('open'); });
+    mobClose?.addEventListener('click', () => { mobOverlay.classList.remove('open'); burger.classList.remove('open'); });
+    mobOverlay?.addEventListener('click', (e) => { if (e.target === mobOverlay) { mobOverlay.classList.remove('open'); burger.classList.remove('open'); } });
+    document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.querySelector('.fc-hero-scroll')?.addEventListener('click', () => {
+      document.querySelector('.crumb-bar')?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    /* ---- Filtering (progressive enhancement over static cards) ---- */
+    const cards = Array.from(document.querySelectorAll('.fc-card'));
+    const filtersEl = document.getElementById('fcFilters');
+    const emptyEl = document.getElementById('fcEmpty');
+    const searchEl = document.getElementById('fcSearch');
+    let activeMonth = 'all';
+    let query = '';
+
+    function applyFilters(){
+      const q = query.trim().toLowerCase();
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const monthOk = activeMonth === 'all' || card.dataset.month === activeMonth;
+        const qOk = !q || card.dataset.name.includes(q) || card.dataset.venue.includes(q);
+        const show = monthOk && qOk;
+        card.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+      emptyEl.classList.toggle('show', visibleCount === 0);
+    }
+
+    filtersEl?.addEventListener('click', e => {
+      const btn = e.target.closest('.fc-fbtn');
+      if (!btn) return;
+      filtersEl.querySelectorAll('.fc-fbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeMonth = btn.dataset.m;
+      applyFilters();
+    });
+
+    searchEl?.addEventListener('input', e => {
+      query = e.target.value;
+      applyFilters();
+    });
+  </script>
+</body>
+</html>

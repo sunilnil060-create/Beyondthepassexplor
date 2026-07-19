@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Best Time to Visit Bhutan — Ridge & Valley Bhutan Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       BEST TIME TO VISIT — page-specific styles
+       (extends style.css, same big-hero + card language as visa.html / sdf.html / payment.html)
+    ════════════════════════════════════════════════════ */
+
+
+
+
+
+    /* ---- BIG HERO ---- */
+    .btv-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .btv-hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      background: var(--black-3);
+      animation: kenBurns 9s ease-in-out forwards;
+    }
+    .btv-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,0.14) 38%,
+        rgba(0,0,0,0.74) 100%
+      );
+    }
+    .btv-hero-body {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 80px 24px 40px;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .btv-hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-bottom: 22px; display: block;
+    }
+    .btv-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      font-weight: 400; color: var(--white);
+      line-height: 0.98; margin-bottom: 22px;
+      letter-spacing: -0.01em;
+    }
+    .btv-hero h1 em { font-style: italic; font-weight: 500; color: var(--light); }
+    .btv-hero p {
+      color: rgba(255,255,255,0.75); font-size: 1.08rem;
+      max-width: 580px; margin: 0 auto 8px; line-height: 1.8;
+    }
+    .btv-hero-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 999px;
+      padding: 10px 24px; margin-top: 26px;
+      font-size: 0.85rem; color: var(--white); font-weight: 500;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .btv-hero-badge strong { font-family: var(--ff-display); font-style: italic; }
+
+    .btv-hero-scroll {
+      position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: rgba(255,255,255,0.55); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+      animation: fadeUp 1s ease 0.9s both;
+    }
+    .btv-hero-scroll i { font-size: 0.9rem; animation: bounceDown 1.8s ease-in-out infinite; }
+    @keyframes bounceDown {
+      0%,100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+
+    /* ---- Breadcrumb ---- */
+    .crumb-bar {
+      position: sticky; top: 72px; z-index: 850;
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .crumb-bar .wrap { padding: 13px 32px; }
+    .info-crumb {
+      font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 8px;
+    }
+    .info-crumb a { color: rgba(255,255,255,0.55); transition: color 0.25s; }
+    .info-crumb a:hover { color: var(--white); }
+    .info-crumb .current { color: var(--white); }
+
+    /* ---- Quick facts / seasons-at-a-glance banner ---- */
+    .btv-fact-sec { background: var(--black); padding: 64px 0; }
+    .btv-fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .btv-fact-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      text-align: center;
+      transition: var(--t);
+    }
+    .btv-fact-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-6px); }
+    .btv-fact-card.rec::before {
+      content: 'Recommended';
+      position: absolute; top: -1px; right: -1px;
+      background: #ffd875; color: #1a1400;
+      font-size: 0.56rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 0 var(--r-xl) 0 var(--r-lg);
+    }
+    .btv-fact-card { position: relative; overflow: hidden; }
+    .vf-icon {
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;
+      color: var(--white); font-size: 1.05rem;
+    }
+    .vf-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .vf-value { font-family: var(--ff-display); font-size: 1.5rem; color: var(--white); font-weight: 500; line-height: 1.2; }
+    .vf-value small { font-size: 0.85rem; font-weight: 400; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+
+    /* ---- Content section ---- */
+    .btv-section { background: var(--white); padding: 88px 0 40px; }
+    .btv-intro { max-width: 780px; margin-bottom: 20px; }
+    .btv-intro p { color: var(--dark); font-size: 1.1rem; line-height: 1.85; }
+
+    .btv-block {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 42px;
+      margin: 40px 0;
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+    }
+    .btv-block::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 5px; height: 100%;
+      background: var(--black);
+      transform: scaleY(0); transform-origin: top;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btv-block:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: transparent; }
+    .btv-block:hover::before { transform: scaleY(1); }
+
+    .btv-block h2 {
+      font-family: var(--ff-display); font-size: 1.55rem; font-weight: 500; color: var(--black);
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .btv-block h2 i {
+      width: 42px; height: 42px; border-radius: 50%; background: var(--black); color: var(--white);
+      display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0;
+    }
+    .btv-block .season-tag {
+      display: inline-block; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted, #888); font-weight: 600; margin-bottom: 10px;
+    }
+    .btv-block p { color: var(--mid); font-size: 1rem; line-height: 1.85; margin-bottom: 14px; }
+    .btv-block p:last-child { margin-bottom: 0; }
+
+    .btv-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .btv-list-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--off-white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 20px 22px;
+      transition: var(--t);
+    }
+    .btv-list-item:hover { border-color: var(--dark); box-shadow: var(--shadow-sm); transform: translateX(4px); }
+    .btv-list-num {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+      background: var(--black); color: var(--white); font-family: var(--ff-display); font-style: italic;
+      font-size: 0.88rem; display: flex; align-items: center; justify-content: center;
+    }
+    .btv-list-item p { margin: 0; font-size: 0.97rem; color: var(--dark); line-height: 1.75; }
+    .btv-list-item strong { color: var(--black); }
+
+    .btv-note {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--black); color: rgba(255,255,255,0.82);
+      border-radius: var(--r-lg); padding: 24px 26px; margin-top: 22px;
+      font-size: 0.96rem; line-height: 1.8;
+      position: relative; overflow: hidden;
+    }
+    .btv-note::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 60%); }
+    .btv-note i { color: #ffd875; margin-top: 3px; flex-shrink: 0; font-size: 1.2rem; position: relative; }
+    .btv-note p { position: relative; margin: 0; }
+    .btv-note strong { color: var(--white); }
+
+    /* Festival chips */
+    .fest-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .fest-chip {
+      background: var(--off-white); border: 1px solid var(--border); border-radius: 999px;
+      padding: 7px 16px; font-size: 0.82rem; color: var(--dark); display: inline-flex; align-items: center; gap: 6px;
+      transition: var(--t);
+    }
+    .fest-chip:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .fest-chip i { font-size: 0.7rem; color: var(--muted); }
+    .fest-chip:hover i { color: var(--white); }
+
+    /* Monthly climate strip */
+    .month-strip { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; margin-top: 18px; }
+    .month-cell {
+      text-align: center; padding: 14px 4px; border-radius: var(--r-lg);
+      border: 1px solid var(--border); background: var(--off-white);
+      transition: var(--t);
+    }
+    .month-cell.peak { background: var(--black); border-color: var(--black); }
+    .month-cell.peak .m-name, .month-cell.peak .m-tag { color: var(--white); }
+    .month-cell.low { background: rgba(255,216,117,0.14); border-color: rgba(255,216,117,0.5); }
+    .month-cell:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); }
+    .m-name { font-size: 0.72rem; font-weight: 700; color: var(--black); letter-spacing: 0.04em; }
+    .m-tag { font-size: 0.6rem; color: var(--muted); margin-top: 4px; display: block; }
+
+    /* ---- Popular places (shared visual language with visa.html / place.html) ---- */
+    .btv-places { background: var(--off-white); padding: 80px 0; margin-top: 20px; }
+    .vp-head { text-align: center; margin-bottom: 48px; }
+    .vp-head .sec-label { display:block; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .vp-head .sec-title { font-family: var(--ff-display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
+    .vp-head .sec-title em { font-style: italic; font-weight: 500; }
+    .vp-head p { color: var(--muted); font-size: 0.96rem; max-width: 520px; margin: 0 auto; }
+
+    .btv-place-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .btv-place-card {
+      position: relative; border-radius: var(--r-lg); overflow: hidden; cursor: pointer;
+      height: 380px; transition: var(--t); background: var(--black-2);
+    }
+    .btv-place-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.28); }
+    .btv-place-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; filter: grayscale(30%); }
+    .btv-place-card:hover img { transform: scale(1.09); filter: grayscale(0%); }
+    .btv-place-veil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 55%); }
+    .btv-place-num {
+      position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.14); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.85); font-size: 0.78rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btv-place-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; }
+    .btv-place-region { font-size: 0.64rem; color: rgba(255,255,255,0.5); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+    .btv-place-name { font-family: var(--ff-display); font-size: 1.55rem; color: var(--white); font-weight: 500; line-height: 1.2; margin-bottom: 8px; }
+    .btv-place-desc { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 14px; }
+    .btv-place-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: var(--white); border-bottom: 1.5px solid rgba(255,255,255,0.5); padding-bottom: 2px; transition: var(--t); }
+    .btv-place-card:hover .btv-place-link { border-color: var(--white); gap: 11px; }
+
+    .vp-more { text-align: center; margin-top: 44px; }
+
+    @media (max-width: 1100px) {
+      .btv-fact-grid { grid-template-columns: 1fr 1fr; }
+      .btv-place-grid { grid-template-columns: 1fr 1fr; }
+      .month-strip { grid-template-columns: repeat(6, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .btv-hero { min-height: 82vh; }
+      .btv-section { padding: 56px 0 24px; }
+      .btv-block { padding: 28px 22px; }
+      .btv-block h2 { font-size: 1.3rem; }
+      .btv-place-grid { grid-template-columns: 1fr; }
+      .btv-places { padding: 56px 0; }
+      .btv-fact-grid { grid-template-columns: 1fr 1fr; }
+      .month-strip { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a active">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Beyond The Pass</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+  <!-- BIG HERO -->
+  <section class="btv-hero">
+    <img src="images/thimphu-tshechu.jpg" alt="Bhutan hero" class="btv-hero-bg">
+    <div class="btv-hero-overlay"></div>
+    <div class="btv-hero-body">
+      <!-- <span class="btv-hero-eyebrow">Seasons · Festivals · Travel Planning</span> -->
+      <h1>Best Time<br/>to Visit</h1>
+      <p>When the rhododendrons bloom, when the masked dancers take the courtyard, when the passes stay open — here's how to pick the season that's right for your Bhutan trip.</p>
+      <div class="btv-hero-badge"><i class="fa-solid fa-sun" style="color:#ffd875"></i> Spring &amp; Autumn — Clear Skies, Peak Season</div>
+    </div>
+    <div class="btv-hero-scroll"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="crumb-bar">
+    <div class="wrap">
+      <p class="info-crumb">
+        <a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <a href="travel-info.html">Travel Info</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <span class="current">Best Time to Visit</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- QUICK FACTS -->
+  <section class="btv-fact-sec">
+    <div class="wrap">
+      <div class="btv-fact-grid">
+        <div class="btv-fact-card rec">
+          <div class="vf-icon"><i class="fa-solid fa-seedling"></i></div>
+          <div class="vf-label">Spring</div>
+          <div class="vf-value">Mar – May <small>Rhododendrons &amp; Paro Tshechu</small></div>
+        </div>
+        <div class="btv-fact-card rec">
+          <div class="vf-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="vf-label">Autumn</div>
+          <div class="vf-value">Sep – Nov <small>Clear skies &amp; Thimphu Tshechu</small></div>
+        </div>
+        <div class="btv-fact-card">
+          <div class="vf-icon"><i class="fa-solid fa-snowflake"></i></div>
+          <div class="vf-label">Winter</div>
+          <div class="vf-value">Dec – Feb <small>Quiet, crisp, fewer crowds</small></div>
+        </div>
+        <div class="btv-fact-card">
+          <div class="vf-icon"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
+          <div class="vf-label">Monsoon</div>
+          <div class="vf-value">Jun – Aug <small>Lush valleys, occasional rain</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="btv-section">
+    <div class="wrap">
+
+      <div class="btv-intro">
+        <p>The best time to visit Bhutan is during the spring months of March to May and the autumn months of September to November. During these windows the weather is at its most pleasant, with clear skies and moderate temperatures — ideal for sightseeing, hiking, and taking in the Himalayas without a cloud in the way.</p>
+      </div>
+
+      <!-- MONTH STRIP -->
+      <div class="btv-block">
+        <h2><i class="fa-solid fa-calendar-days"></i> Bhutan at a Glance, Month by Month</h2>
+        <p>A quick visual read on when the valleys are busiest, and when you'll have them closer to yourself.</p>
+        <div class="month-strip">
+          <div class="month-cell low"><span class="m-name">Jan</span><span class="m-tag">Quiet</span></div>
+          <div class="month-cell low"><span class="m-name">Feb</span><span class="m-tag">Quiet</span></div>
+          <div class="month-cell peak"><span class="m-name">Mar</span><span class="m-tag">Peak</span></div>
+          <div class="month-cell peak"><span class="m-name">Apr</span><span class="m-tag">Peak</span></div>
+          <div class="month-cell peak"><span class="m-name">May</span><span class="m-tag">Peak</span></div>
+          <div class="month-cell"><span class="m-name">Jun</span><span class="m-tag">Monsoon</span></div>
+          <div class="month-cell"><span class="m-name">Jul</span><span class="m-tag">Monsoon</span></div>
+          <div class="month-cell"><span class="m-name">Aug</span><span class="m-tag">Monsoon</span></div>
+          <div class="month-cell peak"><span class="m-name">Sep</span><span class="m-tag">Peak</span></div>
+          <div class="month-cell peak"><span class="m-name">Oct</span><span class="m-tag">Peak</span></div>
+          <div class="month-cell peak"><span class="m-name">Nov</span><span class="m-tag">Peak</span></div>
+          <div class="month-cell low"><span class="m-name">Dec</span><span class="m-tag">Quiet</span></div>
+        </div>
+      </div>
+
+      <!-- SPRING -->
+      <div class="btv-block">
+        <span class="season-tag">March – May</span>
+        <h2><i class="fa-solid fa-seedling"></i> Spring — Bloom &amp; Birdsong</h2>
+        <p>In spring, the valleys come to life with blooming flowers and trees, and birds chirping through forests thick with rhododendrons in bloom — arguably the best season of all for hiking and outdoor sightseeing.</p>
+        <div class="visa-list btv-list">
+          <div class="btv-list-item">
+            <span class="btv-list-num">1</span>
+            <p>Wildflowers and rhododendrons carpet the trails, making this a favourite window for <strong>hikers and trekkers</strong>.</p>
+          </div>
+          <div class="btv-list-item">
+            <span class="btv-list-num">2</span>
+            <p>The <strong>Paro Tshechu</strong> festival is usually held in March or April, filling the Rinpung Dzong courtyard with masked dances.</p>
+          </div>
+          <div class="btv-list-item">
+            <span class="btv-list-num">3</span>
+            <p>Days are mild and skies are largely clear, giving unobstructed views of the surrounding peaks.</p>
+          </div>
+        </div>
+        <div class="fest-chips">
+          <span class="fest-chip"><i class="fa-solid fa-masks-theater"></i> Paro Tshechu — Mar / Apr</span>
+        </div>
+      </div>
+
+      <!-- AUTUMN -->
+      <div class="btv-block">
+        <span class="season-tag">September – November</span>
+        <h2><i class="fa-solid fa-leaf"></i> Autumn — Clear Skies &amp; Colour</h2>
+        <p>In the fall, the weather stays clear and sunny, and the landscapes are adorned with vibrant autumn colours. It's the other peak season, and for many the most reliable stretch of good weather all year.</p>
+        <div class="visa-list btv-list">
+          <div class="btv-list-item">
+            <span class="btv-list-num">1</span>
+            <p>The <strong>Thimphu Tshechu</strong> festival is usually held in September or October, offering visitors a chance to witness colourful masked dances and traditional ceremonies.</p>
+          </div>
+          <div class="btv-list-item">
+            <span class="btv-list-num">2</span>
+            <p>Mountain passes are open and roads are in good condition after the monsoon, making this a great time for road trips across districts.</p>
+          </div>
+          <div class="btv-list-item">
+            <span class="btv-list-num">3</span>
+            <p>Rice paddies turn gold across valleys like Punakha and Paro — a favourite season for photography.</p>
+          </div>
+        </div>
+        <div class="fest-chips">
+          <span class="fest-chip"><i class="fa-solid fa-masks-theater"></i> Thimphu Tshechu — Sep / Oct</span>
+        </div>
+        <div class="btv-note">
+          <i class="fa-solid fa-circle-info"></i>
+          <p><strong>Good to know:</strong> Spring and autumn are peak tourist seasons, which also means higher prices and more crowds — so plan well in advance and book accommodations and tours early.</p>
+        </div>
+      </div>
+
+      <!-- WINTER / OFF-SEASON -->
+      <div class="btv-block">
+        <span class="season-tag">December – February</span>
+        <h2><i class="fa-solid fa-snowflake"></i> Winter — Quiet &amp; Photogenic</h2>
+        <p>For travellers seeking a less crowded and more affordable trip, the offseason from December to February is an excellent time to visit. The weather is colder, and certain mountain passes may close due to snow, but the payoff is a clear, refreshing atmosphere with far-reaching views across the Himalayas.</p>
+        <p>This season offers a fantastic opportunity for photographers — prayer flags swaying against picturesque snowy backdrops make for an idyllic, photogenic setting. Bear in mind that Bhutan's weather can vary considerably based on altitude, so pack layers regardless of when you travel. Bhutan welcomes visitors throughout the year.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- POPULAR PLACES -->
+  <section class="btv-places">
+    <div class="wrap">
+      <div class="vp-head">
+        <span class="sec-label">Wherever the Season Takes You</span>
+        <h2 class="sec-title">Popular Places to <em>Visit</em></h2>
+        <p>A few favourites worth building your itinerary around, whichever season you choose to travel in.</p>
+      </div>
+
+      <div class="btv-place-grid">
+        <a href="place.html" class="btv-place-card">
+          <img src="images/Punakha-Valley.webp" alt="Punakha" onerror="this.style.background='#1a1a1a'">
+          <div class="btv-place-veil"></div>
+          <span class="btv-place-num">01</span>
+          <div class="btv-place-info">
+            <div class="btv-place-region">Western Bhutan</div>
+            <div class="btv-place-name">Punakha</div>
+            <p class="btv-place-desc">The most beautiful dzong in Bhutan, framed by rice paddies that turn gold every autumn.</p>
+            <span class="btv-place-link">Explore Punakha <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="btv-place-card">
+          <img src="images/Bumthang-Dzong-.jpg" alt="Bumthang" onerror="this.style.background='#1a1a1a'">
+          <div class="btv-place-veil"></div>
+          <span class="btv-place-num">02</span>
+          <div class="btv-place-info">
+            <div class="btv-place-region">Central Bhutan</div>
+            <div class="btv-place-name">Bumthang</div>
+            <p class="btv-place-desc">Bhutan's spiritual heartland, at its best under the clear spring and autumn skies.</p>
+            <span class="btv-place-link">Explore Bumthang <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="btv-place-card">
+          <img src="images/gasa-dzong.jpg" alt="Gasa" onerror="this.style.background='#1a1a1a'">
+          <div class="btv-place-veil"></div>
+          <span class="btv-place-num">03</span>
+          <div class="btv-place-info">
+            <div class="btv-place-region">Northern Bhutan</div>
+            <div class="btv-place-name">Gasa</div>
+            <p class="btv-place-desc">Hot springs and Himalayan trekking gateway — best reached in the clear months of May to October.</p>
+            <span class="btv-place-link">Explore Gasa <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="vp-more">
+        <a href="place.html" class="btn-primary dark">See All Destinations <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="events-sec" style="padding:56px 0;">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;">
+      <div>
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;color:var(--white);font-weight:400;">Not sure which <em style="font-style:italic;color:var(--light)">season</em> suits you?</h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-top:6px;">Our Thimphu team replies within a day, every day.</p>
+      </div>
+      <a href="index.html#contact" class="btn-primary">Talk to Us <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="script.js"></script>
+  <script>
+    // Fallbacks in case script.js doesn't bind these on non-index pages
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+      document.getElementById('btt').classList.toggle('show', window.scrollY > 500);
+    });
+
+    const burger = document.getElementById('burger');
+    const mobOverlay = document.getElementById('mobOverlay');
+    const mobClose = document.getElementById('mobClose');
+    burger?.addEventListener('click', () => { mobOverlay.classList.add('open'); burger.classList.add('open'); });
+    mobClose?.addEventListener('click', () => { mobOverlay.classList.remove('open'); burger.classList.remove('open'); });
+    mobOverlay?.addEventListener('click', (e) => { if (e.target === mobOverlay) { mobOverlay.classList.remove('open'); burger.classList.remove('open'); } });
+
+    document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    document.querySelector('.btv-hero-scroll')?.addEventListener('click', () => {
+      document.querySelector('.crumb-bar')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+  <div class="float-social">
+  <a href="https://wa.me/97577456789" target="_blank" rel="noopener" class="float-social-btn fs-whatsapp" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+ 
+  <a href="https://facebook.com/YOUR_PAGE" target="_blank" rel="noopener" class="float-social-btn fs-facebook" aria-label="Facebook">
+    <i class="fa-brands fa-facebook-f"></i>
+  </a>
+</div>
+</body>
+</html>

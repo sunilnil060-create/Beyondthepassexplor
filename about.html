@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — Beyond The Pass Exploration | Bhutan Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Page-specific styles for About Us (kept scoped so style.css stays untouched) -->
+  <style>
+    /* ── PAGE BANNER ─────────────────────────────── */
+    .page-banner {
+      position: relative;
+      margin-top: var(--header-h);
+      min-height: 320px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(rgba(10,10,10,0.62), rgba(10,10,10,0.62)),
+                  url('images/1_Dochula_Pass-1.jpg') center/cover no-repeat;
+    }
+    .pb-inner { position: relative; z-index: 2; padding: 60px 24px; }
+    .pb-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-bottom: 16px; display: block;
+    }
+    .pb-title {
+      font-family: var(--ff-display, var(--ff-main));
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700; color: var(--white); line-height: 1.15;
+    }
+    .pb-title em { font-style: italic; font-weight: 500; }
+    .pb-crumb {
+      margin-top: 18px;
+      font-size: 0.8rem; color: rgba(255,255,255,0.75);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .pb-crumb a { color: rgba(255,255,255,0.75); transition: color 0.2s; }
+    .pb-crumb a:hover { color: var(--white); }
+    .pb-crumb i { font-size: 0.6rem; color: rgba(255,255,255,0.4); }
+
+    /* ── STORY SPLIT ─────────────────────────────── */
+    .story-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .story-imgs { position: relative; height: 440px; }
+    .story-imgs img {
+      position: absolute; border-radius: var(--r-lg); object-fit: cover;
+      box-shadow: var(--shadow);
+    }
+    .story-img-a { width: 72%; height: 78%; top: 0; left: 0; z-index: 2; }
+    .story-img-b {
+      width: 55%; height: 55%; bottom: 0; right: 0; z-index: 1;
+      border: 6px solid var(--white);
+    }
+    .story-badge {
+      position: absolute; bottom: 8%; left: 4%; z-index: 3;
+      background: var(--black); color: var(--white);
+      border-radius: var(--r-lg); padding: 18px 22px;
+      box-shadow: var(--shadow);
+    }
+    .story-badge strong { font-family: var(--ff-display, var(--ff-main)); font-size: 1.7rem; display: block; }
+    .story-badge span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+
+    .story-copy .sec-label { margin-bottom: 12px; }
+    .story-copy h2 {
+      font-family: var(--ff-display, var(--ff-main));
+      font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .story-copy h2 em { font-style: italic; }
+    .story-copy p { color: var(--mid); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
+    .story-sign { margin-top: 22px; display: flex; align-items: center; gap: 14px; }
+    .story-sign img {
+      width: 52px; height: 52px; border-radius: 50%; object-fit: cover;
+    }
+    .story-sign strong { display: block; font-size: 0.88rem; color: var(--black); }
+    .story-sign span { font-size: 0.74rem; color: var(--muted); }
+
+    @media (max-width: 900px) {
+      .story-split { grid-template-columns: 1fr; gap: 40px; }
+      .story-imgs { height: 340px; }
+    }
+
+    /* ── VALUES GRID ─────────────────────────────── */
+    .values-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .value-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 30px 24px; text-align: left;
+      transition: var(--t);
+    }
+    .value-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-sm); border-color: transparent; }
+    .value-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--black); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; margin-bottom: 18px;
+    }
+    .value-card h4 { font-family: var(--ff-display, var(--ff-main)); font-size: 1.05rem; font-weight: 500; margin-bottom: 8px; color: var(--black); }
+    .value-card p { font-size: 0.84rem; color: var(--mid); line-height: 1.65; }
+    @media (max-width: 1100px) { .values-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .values-grid { grid-template-columns: 1fr; } }
+
+    /* ── WHY CHOOSE US ───────────────────────────── */
+    .why-sec { background: var(--surface); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .why-img { border-radius: var(--r-xl); overflow: hidden; height: 420px; box-shadow: var(--shadow); }
+    .why-img img { width: 100%; height: 100%; object-fit: cover; }
+    .why-list { display: flex; flex-direction: column; gap: 20px; margin-top: 24px; }
+    .why-item { display: flex; gap: 16px; align-items: flex-start; }
+    .why-num {
+      flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+      background: var(--white); border: 1.5px solid var(--black);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-display, var(--ff-main)); font-size: 0.85rem; font-weight: 600;
+    }
+    .why-item strong { display: block; font-size: 0.95rem; color: var(--black); margin-bottom: 4px; }
+    .why-item p { font-size: 0.85rem; color: var(--mid); line-height: 1.6; }
+    @media (max-width: 900px) {
+      .why-grid { grid-template-columns: 1fr; gap: 32px; }
+      .why-img { height: 280px; }
+    }
+
+    /* ── TEAM ─────────────────────────────────────── */
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .team-card { text-align: center; }
+    .team-photo {
+      border-radius: var(--r-lg); overflow: hidden; height: 240px; margin-bottom: 16px;
+      background: var(--off-white);
+    }
+    .team-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: var(--t); }
+    .team-card:hover .team-photo img { filter: grayscale(0%); transform: scale(1.04); }
+    .team-card h4 { font-family: var(--ff-display, var(--ff-main)); font-size: 1rem; font-weight: 500; color: var(--black); margin-bottom: 3px; }
+    .team-card span { font-size: 0.76rem; color: var(--muted); }
+    @media (max-width: 1100px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .team-grid { grid-template-columns: 1fr; } }
+
+    /* ── CTA STRIP ────────────────────────────────── */
+    .about-cta {
+      background: var(--black); border-radius: var(--r-xl);
+      padding: 56px 48px; text-align: center; color: var(--white);
+    }
+    .about-cta h2 { font-family: var(--ff-display, var(--ff-main)); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 12px; }
+    .about-cta p { color: rgba(255,255,255,0.65); font-size: 0.92rem; margin-bottom: 26px; }
+    .about-cta .btn-primary { background: var(--white); border-color: var(--white); color: var(--black); }
+    .about-cta .btn-primary:hover { background: transparent; color: var(--white); }
+    @media (max-width: 640px) { .about-cta { padding: 40px 24px; } }
+
+    /* ── LOCATION ─────────────────────────────────── */
+    .loc-sec { background: var(--surface); }
+    .loc-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: center; }
+    .loc-info { display: flex; flex-direction: column; gap: 18px; margin-top: 24px; }
+    .loc-row { display: flex; align-items: flex-start; gap: 14px; }
+    .loc-row > i {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--black); color: var(--white);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .loc-row strong { display: block; font-size: 0.82rem; font-weight: 600; color: var(--black); margin-bottom: 3px; }
+    .loc-row p, .loc-row a { font-size: 0.82rem; color: var(--muted); }
+    .loc-row a { transition: color 0.2s; }
+    .loc-row a:hover { color: var(--black); }
+    .loc-map {
+      border-radius: var(--r-xl); overflow: hidden; height: 420px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .loc-map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(35%) contrast(1.05); }
+    @media (max-width: 900px) {
+      .loc-grid { grid-template-columns: 1fr; gap: 32px; }
+      .loc-map { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Ridge & Valley</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE BANNER -->
+<section class="page-banner">
+  <div class="pb-inner">
+    <span class="pb-eyebrow">Est. 2011 · Licensed Bhutan Tour Operator</span>
+    <h1 class="pb-title">The People Behind <em>Beyond The Pass</em> Exploration</h1>
+    <div class="pb-crumb">
+      <a href="index.html#home">Home</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span>About Us</span>
+    </div>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section class="section" id="our-story">
+  <div class="wrap">
+    <div class="story-split">
+      <div class="story-imgs">
+        <img class="story-img-a" src="images/Bumthang-Dzong-.jpg" alt="Bumthang Dzong, Bhutan"/>
+        <img class="story-img-b" src="images/25_Chimi_Lhakhang.jpg" alt="Chimi Lhakhang, Bhutan"/>
+        <div class="story-badge">
+          <strong>15+</strong>
+          <span>Years Guiding Bhutan</span>
+        </div>
+      </div>
+      <div class="story-copy">
+        <span class="sec-label">Our Story</span>
+        <h2>Born in the Valleys We <em>Still Call Home</em></h2>
+        <p>Beyond The Pass Exploration started with a simple idea: the best way to understand Bhutan is through the eyes of the people who grew up in its valleys. What began as a small team of local guides taking friends-of-friends up to Tiger's Nest has grown into a full-service tour operator — without ever losing that personal, unhurried way of showing people around.</p>
+        <p>Today we're a TCB-licensed operator (#1034899) built entirely around Bhutanese guides, drivers, and hosts who know these roads, dzongs, and festivals firsthand. Every itinerary we plan pays the Sustainable Development Fee in full and channels part of every booking back into the communities we pass through.</p>
+        <div class="story-sign">
+          <img src="https://ui-avatars.com/api/?name=Sonam+Dorji&background=0a0a0a&color=fff" alt="Sonam Dorji"/>
+          <div>
+            <strong>Ghana Shyam Chhetri</strong>
+            <span>Founder &amp; Lead Guide</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section" id="values" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-label">What Drives Us</p>
+      <h2 class="sec-title">Our <em>Values</em></h2>
+      <p class="sec-desc">Four principles guide every itinerary we build, from a weekend in Thimphu to a twelve-day trek.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+        <h4>Local Expertise</h4>
+        <p>Every guide and driver on our team is Bhutanese, trained and licensed, and genuinely proud to share their home.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fa-solid fa-leaf"></i></div>
+        <h4>Sustainable Travel</h4>
+        <p>SDF included in full on every package, with a share of proceeds supporting conservation and local livelihoods.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+        <h4>Genuine Care</h4>
+        <p>Small group sizes and private itineraries mean your trip is shaped around you, not a fixed bus schedule.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h4>Trust &amp; Transparency</h4>
+        <p>Clear pricing, no hidden fees, and a licensed operator you can verify with the Tourism Council of Bhutan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section why-sec" id="why-us">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="why-img">
+        <img src="images/Jumolhaari-Base-Camp-Trek.jpg" alt="Trekking in Bhutan"/>
+      </div>
+      <div>
+        <span class="sec-label">Why Travelers Choose Us</span>
+        <h2 class="sec-title">Built Around <em>You</em>, Not a Template</h2>
+        <div class="why-list">
+          <div class="why-item">
+            <div class="why-num">01</div>
+            <div>
+              <strong>Fully Private Itineraries</strong>
+              <p>No joining a stranger's bus. Every trip is planned around your dates, pace, and interests.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-num">02</div>
+            <div>
+              <strong>All-Inclusive, No Surprises</strong>
+              <p>Hotel, meals, licensed guide, private car, and the SDF are built into every quote you receive.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-num">03</div>
+            <div>
+              <strong>5+ Years on the Ground</strong>
+              <p>Over 2,000 trips completed and 5,000+ guests hosted across every region of Bhutan.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-num">04</div>
+            <div>
+              <strong>Real Support, Anytime</strong>
+              <p>A WhatsApp line to your guide and our team throughout your trip — not just at booking.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- LOCATION -->
+<section class="section loc-sec" id="location">
+  <div class="wrap">
+    <div class="loc-grid">
+      <div>
+        <span class="sec-label">Find Us</span>
+        <h2 class="sec-title">Our <em>Office</em> in Thimphu</h2>
+        <p class="sec-desc">Stop by for a coffee and to talk through your trip in person, or reach us anytime online.</p>
+        <div class="loc-info">
+          <div class="loc-row">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Office Address</strong>
+              <p>Beyond The Pass Exploration<br/>Jazam(Above Welcome Gate), Chang, Thimphu, Bhutan</p>
+            </div>
+          </div>
+          <div class="loc-row">
+            <i class="fa-brands fa-whatsapp"></i>
+            <div>
+              <strong>WhatsApp / Phone</strong>
+              <a href="https://wa.me/97577454544">+975 77 45 45 44</a>
+            </div>
+          </div>
+          <div class="loc-row">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <strong>Email</strong>
+              <a href="mailto:beyondthepassexplor@gmail.com">beyondthepassexplor@gmail.com</a>
+            </div>
+          </div>
+          <div class="loc-row">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+              <strong>Office Hours</strong>
+              <p>Mon – Sat, 9:00 AM – 6:00 PM (BTT)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="loc-map">
+        <iframe
+          src="https://www.google.com/maps?q=27.4212277,89.6368384&z=16&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Beyond The Pass Exploration office location"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE STRIP -->
+<div class="news-wrap">
+  <div class="wrap">
+    <div class="news-box">
+      <i class="fa-solid fa-quote-left news-quote-icon"></i>
+      <p class="news-quote-text">Travel is the only thing you buy that makes you richer.</p>
+      <span class="news-quote-sub">— Beyond The Pass Exploration</span>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="section" id="about-cta-sec" style="padding-top:120px;">
+  <div class="wrap">
+    <div class="about-cta">
+      <h2>Ready to See Bhutan With Us?</h2>
+      <p>Tell us your dates and interests — we'll build a private itinerary around you.</p>
+      <a href="plan-trip.html" class="btn-primary">Plan My Trip <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+      <div class="fb-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- MODAL (kept for shared script.js compatibility; unused on this page) -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="float-social">
+  <a href="https://wa.me/97577456789" target="_blank" rel="noopener" class="float-social-btn fs-whatsapp" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+  
+  <a href="https://facebook.com/YOUR_PAGE" target="_blank" rel="noopener" class="float-social-btn fs-facebook" aria-label="Facebook">
+    <i class="fa-brands fa-facebook-f"></i>
+  </a>
+</div>
+
+<!-- AI CHATBOT -->
+<div class="chat-widget">
+  <button class="chat-toggle" id="chatToggle" aria-label="Chat with us">
+    <i class="fa-solid fa-comment-dots" id="chatIconOpen"></i>
+    <i class="fa-solid fa-xmark" id="chatIconClose" style="display:none"></i>
+  </button>
+
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar"><i class="fa-solid fa-mountain-sun"></i></div>
+      <div>
+        <strong>Beyond The Pass Exploration</strong>
+        <span>Usually replies instantly</span>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-quick" id="chatQuick"></div>
+    <form class="chat-input-row" id="chatForm">
+      <input type="text" id="chatInput" placeholder="Ask about tours, pricing, visa…" autocomplete="off"/>
+      <button type="submit" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

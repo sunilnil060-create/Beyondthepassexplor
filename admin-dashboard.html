@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Beyond The Pass Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-wrap{max-width:1100px;margin:calc(var(--header-h) + 40px) auto 80px;padding:0 32px;}
+    .admin-head{margin-bottom:32px;}
+    .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;}
+    .admin-stat-card{background:var(--off-white);border:1px solid var(--border);border-radius:12px;padding:20px;}
+    .admin-stat-card strong{display:block;font-size:1.8rem;font-family:var(--ff-display,serif);}
+    .admin-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+    .admin-table th,.admin-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);}
+    .admin-table th{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+    .admin-section{margin-bottom:48px;}
+    .denied-box{max-width:480px;margin:160px auto;text-align:center;}
+  </style>
+</head>
+<body>
+
+<!-- HEADER (copy from index.html so nav/login stays consistent) -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+    </a>
+    <div class="hdr-middle">
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a">Tours</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a active" id="adminNavLink">Admin</a>
+      </nav>
+    </div>
+    <div class="hdr-right">
+      <span id="adminUserLabel" style="font-size:0.85rem;color:var(--mid);margin-right:12px;"></span>
+      <button class="hdr-login-btn" id="adminLogoutBtn">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<!-- DENIED VIEW -->
+<div class="denied-box" id="deniedBox" style="display:none">
+  <i class="fa-solid fa-lock" style="font-size:2.2rem;color:var(--muted);margin-bottom:16px;"></i>
+  <h2 style="font-family:var(--ff-display,serif);margin-bottom:8px;">Admins Only</h2>
+  <p style="color:var(--muted);margin-bottom:20px;">You need an administrator account to view this page.</p>
+  <a href="index.html" class="hdr-btn">Back to Home</a>
+</div>
+
+<!-- ADMIN VIEW -->
+<div class="admin-wrap" id="adminWrap" style="display:none">
+  <div class="admin-head">
+    <h1 style="font-family:var(--ff-display,serif);font-size:2rem;">Admin Dashboard</h1>
+    <p style="color:var(--muted);">Manage tours, reviews, and site data.</p>
+  </div>
+
+  <div class="admin-stats" id="adminStats"></div>
+
+  <div class="admin-section">
+    <h3 style="margin-bottom:14px;">Trip Plan Requests</h3>
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Arrival</th><th>Duration</th><th>Interested In</th><th>Message</th><th></th></tr></thead>
+      <tbody id="adminTripRequestsBody"></tbody>
+    </table>
+  </div>
+
+  <div class="admin-section">
+    <h3 style="margin-bottom:14px;">Guest Reviews</h3>
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Trip</th><th>Rating</th><th>Review</th><th></th></tr></thead>
+      <tbody id="adminReviewsBody"></tbody>
+    </table>
+  </div>
+
+  <div class="admin-section">
+    <h3 style="margin-bottom:14px;">Registered Users</h3>
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+      <tbody id="adminUsersBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  (function () {
+    function init() {
+      const user = window.AuthHelpers ? window.AuthHelpers.currentUser() : null;
+      const isAdmin = window.AuthHelpers ? window.AuthHelpers.isAdmin() : false;
+
+      if (!isAdmin) {
+        document.getElementById('deniedBox').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('adminWrap').style.display = 'block';
+      document.getElementById('adminUserLabel').textContent = user.name;
+
+      // Stats
+      const stats = document.getElementById('adminStats');
+      const reviewCount = JSON.parse(localStorage.getItem('btpe_guest_reviews') || '[]').length;
+      const userCount = Object.keys(JSON.parse(localStorage.getItem('rnv_users') || '{}')).length;
+      const tripRequestCount = JSON.parse(localStorage.getItem('btpe_trip_requests') || '[]').length;
+      stats.innerHTML = `
+        <div class="admin-stat-card"><strong>${typeof TOURS !== 'undefined' ? TOURS.length : '—'}</strong>Total Tours</div>
+        <div class="admin-stat-card"><strong>${tripRequestCount}</strong>Trip Plan Requests</div>
+        <div class="admin-stat-card"><strong>${reviewCount}</strong>Guest Reviews</div>
+        <div class="admin-stat-card"><strong>${userCount}</strong>Registered Users</div>
+      `;
+
+      // Trip plan requests table
+      const tripRequests = JSON.parse(localStorage.getItem('btpe_trip_requests') || '[]');
+      document.getElementById('adminTripRequestsBody').innerHTML = tripRequests.length
+        ? tripRequests.map((r, i) => `
+            <tr>
+              <td>${r.first_name} ${r.last_name}</td>
+              <td>${r.email}</td>
+              <td>${r.phone || '—'}</td>
+              <td>${r.arrival_date || '—'}</td>
+              <td>${r.duration || '—'}</td>
+              <td>${r.interested_in || '—'}</td>
+              <td style="max-width:220px;">${r.message || '—'}</td>
+              <td><button data-i="${i}" class="admin-del-trip" style="color:#e53935;background:none;border:none;cursor:pointer;">Delete</button></td>
+            </tr>`).join('')
+        : `<tr><td colspan="8" style="color:var(--muted);">No trip plan requests yet.</td></tr>`;
+
+      document.querySelectorAll('.admin-del-trip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.i);
+          const arr = JSON.parse(localStorage.getItem('btpe_trip_requests') || '[]');
+          arr.splice(idx, 1);
+          localStorage.setItem('btpe_trip_requests', JSON.stringify(arr));
+          init(); // re-render
+        });
+      });
+
+      // Reviews table
+      const reviews = JSON.parse(localStorage.getItem('btpe_guest_reviews') || '[]');
+      document.getElementById('adminReviewsBody').innerHTML = reviews.length
+        ? reviews.map((r, i) => `
+            <tr>
+              <td>${r.name}</td>
+              <td>${r.trip || '—'}</td>
+              <td>${'★'.repeat(r.stars)}</td>
+              <td style="max-width:300px;">${r.text}</td>
+              <td><button data-i="${i}" class="admin-del-review" style="color:#e53935;background:none;border:none;cursor:pointer;">Delete</button></td>
+            </tr>`).join('')
+        : `<tr><td colspan="5" style="color:var(--muted);">No guest reviews yet.</td></tr>`;
+
+      document.querySelectorAll('.admin-del-review').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.i);
+          const arr = JSON.parse(localStorage.getItem('btpe_guest_reviews') || '[]');
+          arr.splice(idx, 1);
+          localStorage.setItem('btpe_guest_reviews', JSON.stringify(arr));
+          init(); // re-render
+        });
+      });
+
+      // Users table
+      const users = JSON.parse(localStorage.getItem('rnv_users') || '{}');
+      document.getElementById('adminUsersBody').innerHTML = Object.entries(users).map(([email, u]) => `
+        <tr>
+          <td>${u.name}</td>
+          <td>${email}</td>
+          <td>${u.role || 'customer'}</td>
+        </tr>`).join('');
+
+      // Logout
+      document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+        sessionStorage.removeItem('rnv_session');
+        window.location.href = 'index.html';
+      });
+    }
+
+    // Wait a tick for script.js's auth IIFE to run first
+    setTimeout(init, 50);
+  })();
+</script>
+</body>
+</html>

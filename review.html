@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Write a Review — Beyond The Pass Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a active">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Beyond The Pass</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+<!-- REVIEW FORM -->
+<section class="section" style="margin-top:calc(var(--header-h) + 48px);">
+  <div class="wrap" style="max-width:640px;">
+    <div class="sec-head">
+      <p class="sec-label">Share Your Experience</p>
+      <h2 class="sec-title">Write a <em>Review</em></h2>
+      <p class="sec-desc">Tell us — and future travelers — about your trip with Beyond The Pass Exploration.</p>
+    </div>
+
+    <div class="cg-right">
+      <form class="contact-form" id="reviewForm">
+        <div class="cf-g">
+          <label>Your Name</label>
+          <input type="text" id="reviewName" placeholder="e.g. Sonam Wangchuk" required/>
+        </div>
+
+        <div class="cf-g">
+  <label>Trip / Tour Taken</label>
+  <select id="reviewTrip" required>
+    <option value="" disabled selected>Select your tour</option>
+    <optgroup label="From India">
+      <option data-duration="7D / 6N">Bhutan Group Tour — Durga Puja Special</option>
+      <option data-duration="6D / 5N">Bhutan Tour Package from Kolkata</option>
+      <option data-duration="6D / 5N">Bhutan Tour Package from Mumbai</option>
+      <option data-duration="6D / 5N">Bhutan Tour Package from Bangalore</option>
+      <option data-duration="8D / 7N">Bhutan Special 8-Day Group Package</option>
+      <option data-duration="6D / 5N">Bhutan Tour Package from Chennai</option>
+      <option data-duration="6D / 5N">Bhutan Tour Package from Delhi</option>
+    </optgroup>
+    <optgroup label="From Bangladesh">
+      <option data-duration="6D / 5N">Bhutan Adventure Tour Package</option>
+      <option data-duration="5D / 4N">Short Trip to Bhutan</option>
+      <option data-duration="8D / 7N">Explore Bhutan in 8 Days</option>
+      <option data-duration="6D / 5N">Experience Bhutan in 6 Days</option>
+      <option data-duration="7D / 6N">Explore Bhutan in 7 Days</option>
+    </optgroup>
+    <option data-duration="">Other / Custom Trip</option>
+  </select>
+  <span id="reviewTripDuration" style="display:none; margin-top:6px; font-size:0.78rem; font-weight:600; color:#c9a227;"></span>
+</div>
+
+<div class="cf-g" id="customTripReviewWrap" style="display:none;">
+  <label>Tell Us Your Trip</label>
+  <input type="text" id="customTripReviewInput" placeholder="e.g. Custom Bhutan trip with family"/>
+</div>
+
+        <div class="cf-g">
+          <label>Your Rating</label>
+          <div id="starPicker" style="margin-top:4px;"></div>
+          <input type="hidden" id="starValue" value="0"/>
+        </div>
+
+        <div class="cf-g">
+          <label>Your Review</label>
+          <textarea id="reviewText" rows="5" placeholder="Tell us about your experience…" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary full">Submit Review <i class="fa-solid fa-paper-plane"></i></button>
+        <p class="cf-msg" id="reviewMsg" style="min-height:20px;"></p>
+      </form>
+
+      <div id="googlePrompt" style="display:none; text-align:center; margin-top:20px; padding:24px; background:var(--off-white); border:1px solid var(--border); border-radius:var(--r-lg);">
+        <p style="font-family:var(--ff-display); font-size:1.1rem; margin-bottom:6px;">Loved your trip? 🙏</p>
+        <p style="font-size:0.85rem; color:var(--mid); margin-bottom:16px;">Please also share a quick review on Google — it means a lot to us!</p>
+        <a href="https://share.google/zRZ1iC67dpdoSU3hH" target="_blank" rel="noopener" class="btn-primary dark" style="justify-content:center;">
+          <i class="fa-brands fa-google"></i> Review us on Google
+        </a>
+        <p style="margin-top:14px;"><a href="index.html#reviews" style="font-size:0.78rem; color:var(--muted); text-decoration:underline;">Skip, take me back home →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- MODAL (required so script.js doesn't error — unused on this page) -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="float-social">
+  <a href="https://wa.me/97577456789" target="_blank" rel="noopener" class="float-social-btn fs-whatsapp" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+  <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener" class="float-social-btn fs-instagram" aria-label="Instagram">
+    <i class="fa-brands fa-instagram"></i>
+  </a>
+  <a href="https://facebook.com/YOUR_PAGE" target="_blank" rel="noopener" class="float-social-btn fs-facebook" aria-label="Facebook">
+    <i class="fa-brands fa-facebook-f"></i>
+  </a>
+</div>
+
+<!-- AI CHATBOT -->
+<div class="chat-widget">
+  <button class="chat-toggle" id="chatToggle" aria-label="Chat with us">
+    <i class="fa-solid fa-comment-dots" id="chatIconOpen"></i>
+    <i class="fa-solid fa-xmark" id="chatIconClose" style="display:none"></i>
+  </button>
+
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar"><i class="fa-solid fa-mountain-sun"></i></div>
+      <div>
+        <strong>Beyond The Pass Exploration</strong>
+        <span>Usually replies instantly</span>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-quick" id="chatQuick"></div>
+    <form class="chat-input-row" id="chatForm">
+      <input type="text" id="chatInput" placeholder="Ask about tours, pricing, visa…" autocomplete="off"/>
+      <button type="submit" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

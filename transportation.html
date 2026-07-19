@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transportation & Car Hire — Ridge & Valley Bhutan Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       TRANSPORTATION — page-specific styles
+    ════════════════════════════════════════════════════ */
+/* ---- BIG HERO ---- */
+    .tr-hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .tr-hero-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      background: var(--black-3);
+      animation: kenBurns 9s ease-in-out forwards;
+    }
+    .tr-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.14) 38%, rgba(0,0,0,0.76) 100%);
+    }
+    .tr-hero-body { position: relative; z-index: 2; text-align: center; padding: 80px 24px 40px; animation: fadeUp 1s ease 0.3s both; }
+    .tr-hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 22px; display: block; }
+    .tr-hero h1 { font-family: var(--ff-display); font-size: clamp(2.6rem, 7vw, 5.2rem); font-weight: 400; color: var(--white); line-height: 0.98; margin-bottom: 22px; letter-spacing: -0.01em; }
+    .tr-hero h1 em { font-style: italic; font-weight: 500; color: var(--light); }
+    .tr-hero p { color: rgba(255,255,255,0.75); font-size: 1.08rem; max-width: 580px; margin: 0 auto 8px; line-height: 1.8; }
+    .tr-hero-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; padding: 10px 24px; margin-top: 26px; font-size: 0.85rem; color: var(--white); font-weight: 500; animation: fadeUp 1s ease 0.6s both; }
+    .tr-hero-badge strong { font-family: var(--ff-display); font-style: italic; }
+    .tr-hero-scroll { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; color: rgba(255,255,255,0.55); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; animation: fadeUp 1s ease 0.9s both; }
+    .tr-hero-scroll i { font-size: 0.9rem; animation: bounceDown 1.8s ease-in-out infinite; }
+    @keyframes bounceDown { 0%,100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
+
+    /* ---- Breadcrumb ---- */
+    .crumb-bar { position: sticky; top: 72px; z-index: 850; background: var(--black); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .crumb-bar .wrap { padding: 13px 32px; }
+    .info-crumb { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 8px; }
+    .info-crumb a { color: rgba(255,255,255,0.55); transition: color 0.25s; }
+    .info-crumb a:hover { color: var(--white); }
+    .info-crumb .current { color: var(--white); }
+
+    /* ---- Quick facts banner ---- */
+    .tr-fact-sec { background: var(--black); padding: 60px 0; }
+    .tr-fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .tr-fact-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-xl); padding: 26px 22px; text-align: center; transition: var(--t); }
+    .tr-fact-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-6px); }
+    .tf-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; color: var(--white); font-size: 1.05rem; }
+    .tf-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .tf-value { font-family: var(--ff-display); font-size: 1.5rem; color: var(--white); font-weight: 500; line-height: 1.2; }
+    .tf-value small { font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+
+    /* ---- Fleet section head ---- */
+    .tr-fleet-sec { background: var(--white); padding: 88px 0 30px; }
+    .tr-fleet-head { text-align: center; margin-bottom: 52px; }
+    .tr-fleet-head .sec-label { display:block; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .tr-fleet-head .sec-title { font-family: var(--ff-display); font-size: clamp(1.9rem, 3.6vw, 2.7rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
+    .tr-fleet-head .sec-title em { font-style: italic; font-weight: 500; }
+    .tr-fleet-head p { color: var(--muted); font-size: 0.96rem; max-width: 560px; margin: 0 auto; }
+
+    /* ---- Fleet grid ---- */
+    .tr-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+
+    .tr-card {
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease, border-color 0.45s ease;
+    }
+    .tr-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: transparent; }
+
+    .tr-card-img { position: relative; height: 300px; overflow: hidden; background: linear-gradient(135deg, var(--black-3), var(--black-2)); }
+    .tr-img-slides { position: relative; width: 100%; height: 100%; }
+    .tr-img-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease; }
+    .tr-img-slide.active { opacity: 1; }
+    .tr-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); filter: grayscale(18%) brightness(0.97); display: block; }
+    .tr-card:hover .tr-card-img img { transform: scale(1.08); filter: grayscale(0%) brightness(1.02); }
+    .tr-card-img .icon-fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:3.4rem; color:rgba(255,255,255,0.15); }
+
+    .tr-img-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.4); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.3); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; z-index: 5; pointer-events: auto; transition: var(--t); cursor: pointer; }
+    .tr-img-nav:hover { background: rgba(0,0,0,0.65); }
+    .tr-img-prev { left: 14px; }
+    .tr-img-next { right: 14px; }
+    .tr-img-nav i { pointer-events: none; }
+    .tr-img-dots { position: absolute; bottom: 66px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; }
+    .tr-img-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: var(--t); cursor: pointer; position: relative; z-index: 5; pointer-events: auto; }
+    .tr-img-dot.active { background: var(--white); width: 16px; border-radius: 4px; }
+    .tr-img-veil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.05) 45%, transparent 65%); pointer-events: none; }
+
+    .tr-seat-badge {
+      position: absolute; top: 18px; left: 18px;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.14); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.28); border-radius: 999px;
+      padding: 8px 16px 8px 12px; color: var(--white);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+      transition: var(--t);
+    }
+    .tr-card:hover .tr-seat-badge { background: rgba(255,255,255,0.22); }
+    .tr-seat-badge i { font-size: 0.8rem; color: #ffd875; }
+
+    .tr-ideal-badge {
+      position: absolute; top: 18px; right: 18px;
+      background: var(--white); color: var(--black);
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 12px; border-radius: 999px;
+      transform: translateY(-4px); opacity: 0; transition: var(--t);
+    }
+    .tr-card:hover .tr-ideal-badge { transform: translateY(0); opacity: 1; }
+
+    .tr-card-name {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 26px;
+    }
+    .tr-card-name h3 { font-family: var(--ff-display); font-size: 1.7rem; color: var(--white); font-weight: 500; line-height: 1.15; }
+    .tr-card-name span { font-size: 0.78rem; color: rgba(255,255,255,0.65); letter-spacing: 0.04em; display: block; margin-top: 4px; }
+
+    .tr-card-body { padding: 26px 26px 28px; flex: 1; display: flex; flex-direction: column; }
+    .tr-card-desc { font-size: 0.92rem; color: var(--mid); line-height: 1.8; margin-bottom: 18px; flex: 1; }
+
+    .tr-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .tr-spec {
+      text-align: center; background: var(--off-white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 12px 8px; transition: var(--t);
+    }
+    .tr-card:hover .tr-spec { border-color: rgba(0,0,0,0.12); }
+    .tr-spec i { color: var(--black); font-size: 0.95rem; margin-bottom: 6px; display: block; }
+    .tr-spec .sp-val { font-size: 0.82rem; font-weight: 700; color: var(--black); }
+    .tr-spec .sp-lbl { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+    .tr-feat-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .tr-feat {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--off-white); border: 1px solid var(--border); border-radius: 999px;
+      padding: 6px 14px 6px 10px; font-size: 0.76rem; color: var(--dark); font-weight: 500;
+      transition: var(--t);
+    }
+    .tr-feat i { font-size: 0.62rem; color: var(--black); }
+    .tr-card:hover .tr-feat { background: var(--black); color: var(--white); border-color: var(--black); }
+    .tr-card:hover .tr-feat i { color: #ffd875; }
+
+    .tr-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .tr-price { display: flex; flex-direction: column; }
+    .tr-price .pr-lbl { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .tr-price .pr-val { font-family: var(--ff-display); font-size: 1.05rem; color: var(--black); font-weight: 500; }
+    .tr-price .pr-val small { font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+
+    .tr-enquire {
+      position: relative; overflow: hidden;
+      padding: 12px 22px; border-radius: var(--r); border: 1.5px solid var(--black);
+      background: var(--black); color: var(--white); font-size: 0.82rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+      transition: var(--t);
+    }
+    .tr-enquire:hover { background: transparent; color: var(--black); gap: 12px; }
+    .tr-enquire i { transition: transform 0.3s ease; }
+    .tr-enquire:hover i { transform: translateX(3px); }
+
+    /* ---- Info strip below grid ---- */
+    .tr-info-strip {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--off-white); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: 26px 30px; margin-top: 40px;
+    }
+    .tr-info-strip i { font-size: 1.3rem; color: var(--black); flex-shrink: 0; }
+    .tr-info-strip p { font-size: 0.92rem; color: var(--mid); line-height: 1.7; margin: 0; }
+    .tr-info-strip strong { color: var(--black); }
+
+    @media (max-width: 1100px) {
+      .tr-fact-grid { grid-template-columns: 1fr 1fr; }
+      .tr-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .tr-hero { min-height: 82vh; }
+      .tr-fleet-sec { padding: 56px 0 24px; }
+      .tr-fact-grid { grid-template-columns: 1fr 1fr; }
+      .tr-specs { grid-template-columns: repeat(3, 1fr); }
+      .tr-card-foot { flex-direction: column; align-items: flex-start; }
+      .tr-enquire { width: 100%; justify-content: center; }
+      .tr-info-strip { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a active">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Ridge & Valley</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+  <!-- BIG HERO -->
+  <section class="tr-hero">
+    <img src="images/dac67f21183279a32942a9f2c55e72a9.webp" alt="Bhutan hero" class="tr-hero-bg">
+    <div class="tr-hero-overlay"></div>
+    <div class="tr-hero-body">
+      <span class="tr-hero-eyebrow">Private Vehicles · Licensed Drivers · Every Dzongkhag</span>
+      <h1>Transportation<br/><em>& Car Hire</em></h1>
+      <p>From an intimate two-seater for couples to a 25-seater coaster for the full group — every Ridge & Valley journey comes with a private vehicle and an experienced local driver.</p>
+      <div class="tr-hero-badge"><i class="fa-solid fa-road" style="color:#ffd875"></i> 4 Vehicle Classes — Fuel, Driver & Permits Included</div>
+    </div>
+    <div class="tr-hero-scroll"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="crumb-bar">
+    <div class="wrap">
+      <p class="info-crumb">
+        <a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <span class="current">Transportation</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- QUICK FACTS -->
+  <section class="tr-fact-sec">
+    <div class="wrap">
+      <div class="tr-fact-grid">
+        <div class="tr-fact-card">
+          <div class="tf-icon"><i class="fa-solid fa-car"></i></div>
+          <div class="tf-label">Fleet Range</div>
+          <div class="tf-value">2 – 25 <small>seats per vehicle</small></div>
+        </div>
+        <div class="tr-fact-card">
+          <div class="tf-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+          <div class="tf-label">Drivers</div>
+          <div class="tf-value" style="font-size:1.1rem;">Licensed &amp; English-Speaking</div>
+        </div>
+        <div class="tr-fact-card">
+          <div class="tf-icon"><i class="fa-solid fa-gas-pump"></i></div>
+          <div class="tf-label">Included</div>
+          <div class="tf-value" style="font-size:1.05rem;">Fuel, Permits &amp; Tolls</div>
+        </div>
+        <div class="tr-fact-card">
+          <div class="tf-icon"><i class="fa-solid fa-headset"></i></div>
+          <div class="tf-label">Support</div>
+          <div class="tf-value">24/7 <small>on the road</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLEET GRID -->
+  <section class="tr-fleet-sec">
+    <div class="wrap">
+
+      <div class="tr-fleet-head">
+        <span class="sec-label">Choose Your Ride</span>
+        <h2 class="sec-title">Our <em>Fleet</em></h2>
+        <p>Every vehicle is inspected before your trip and paired with a driver who knows the mountain roads. Pick the size that matches your group.</p>
+      </div>
+
+      <div class="tr-grid">
+
+        <!-- CAR FOR COUPLE -->
+        <div class="tr-card">
+          <div class="tr-card-img">
+            <div class="tr-img-slides">
+              <div class="tr-img-slide active">
+                <img src="tour/c2.jpg" alt="Sedan car for couples" onerror="this.remove()">
+                <div class="icon-fallback"><i class="fa-solid fa-car-side"></i></div>
+              </div>
+              <div class="tr-img-slide">
+                <img src="tour/c1.jpg" alt="Sedan car for couples interior" onerror="this.remove()">
+                <div class="icon-fallback"><i class="fa-solid fa-car-side"></i></div>
+              </div>
+            </div>
+            <button type="button" class="tr-img-nav tr-img-prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="tr-img-nav tr-img-next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="tr-img-dots"><span class="tr-img-dot active"></span><span class="tr-img-dot"></span></div>
+            <div class="tr-img-veil"></div>
+            <span class="tr-seat-badge"><i class="fa-solid fa-user-group"></i> 2 Seater</span>
+            <span class="tr-ideal-badge">Best for Couples</span>
+            <div class="tr-card-name">
+              <h3>Couple's Sedan</h3>
+              <span>Compact · Private · Intimate</span>
+            </div>
+          </div>
+          <div class="tr-card-body">
+            <p class="tr-card-desc">A snug, air-conditioned sedan built for two — perfect for honeymooners and couples who want an intimate ride through Bhutan's mountain passes without sharing the back seat with anyone else.</p>
+            <div class="tr-specs">
+              <div class="tr-spec"><i class="fa-solid fa-user"></i><div class="sp-val">2</div><div class="sp-lbl">Seats</div></div>
+              <div class="tr-spec"><i class="fa-solid fa-suitcase-rolling"></i><div class="sp-val">2</div><div class="sp-lbl">Bags</div></div>
+              <div class="tr-spec"><i class="fa-solid fa-snowflake"></i><div class="sp-val">AC</div><div class="sp-lbl">Climate</div></div>
+            </div>
+            <div class="tr-feat-list">
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Private Driver</span>
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Door-to-Door</span>
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Scenic Stops</span>
+            </div>
+            <div class="tr-card-foot">
+              <div class="tr-price"><span class="pr-lbl">Starting from</span><span class="pr-val">$35 <small>/ day</small></span></div>
+              <a href="index.html#contact" class="tr-enquire">Enquire Now <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 SEATER CAR -->
+        <div class="tr-card">
+          <div class="tr-card-img">
+            <div class="tr-img-slides">
+              <div class="tr-img-slide active">
+                <img src="tour/r2.jpg" alt="5 seater SUV" onerror="this.remove()">
+                <div class="icon-fallback"><i class="fa-solid fa-car"></i></div>
+              </div>
+              <div class="tr-img-slide">
+                <img src="tour/r1.avif" alt="5 seater SUV interior" onerror="this.remove()">
+                <div class="icon-fallback"><i class="fa-solid fa-car"></i></div>
+              </div>
+            </div>
+            <button type="button" class="tr-img-nav tr-img-prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="tr-img-nav tr-img-next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="tr-img-dots"><span class="tr-img-dot active"></span><span class="tr-img-dot"></span></div>
+            <div class="tr-img-veil"></div>
+            <span class="tr-seat-badge"><i class="fa-solid fa-user-group"></i> 5 Seater</span>
+            <span class="tr-ideal-badge">Best for Families</span>
+            <div class="tr-card-name">
+              <h3>5-Seater SUV</h3>
+              <span>Small Groups · Families · Friends</span>
+            </div>
+          </div>
+          <div class="tr-card-body">
+            <p class="tr-card-desc">Our most popular vehicle — a comfortable SUV with room for four passengers, a driver, and all the luggage a small family or group of friends needs for a full Bhutan circuit.</p>
+            <div class="tr-specs">
+              <div class="tr-spec"><i class="fa-solid fa-user"></i><div class="sp-val">4+1</div><div class="sp-lbl">Seats</div></div>
+              <div class="tr-spec"><i class="fa-solid fa-suitcase-rolling"></i><div class="sp-val">4</div><div class="sp-lbl">Bags</div></div>
+              <div class="tr-spec"><i class="fa-solid fa-snowflake"></i><div class="sp-val">AC</div><div class="sp-lbl">Climate</div></div>
+            </div>
+            <div class="tr-feat-list">
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>4x4 Capable</span>
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Mountain Ready</span>
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Extra Luggage Space</span>
+            </div>
+            <div class="tr-card-foot">
+              <div class="tr-price"><span class="pr-lbl">Starting from</span><span class="pr-val">$50 <small>/ day</small></span></div>
+              <a href="index.html#contact" class="tr-enquire">Enquire Now <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 SEATER MINI BUS -->
+        <div class="tr-card">
+          <div class="tr-card-img">
+            <div class="tr-img-slides">
+              <div class="tr-img-slide active">
+                <img src="tour/h1.jpeg" alt="8 seater mini bus" onerror="this.remove()">
+                <div class="icon-fallback"><i class="fa-solid fa-van-shuttle"></i></div>
+              </div>
+              <div class="tr-img-slide">
+                <img src="tour/h2.jpg" alt="8 seater mini bus interior" onerror="this.remove()">
+                <div class="icon-fallback"><i class="fa-solid fa-van-shuttle"></i></div>
+              </div>
+            </div>
+            <button type="button" class="tr-img-nav tr-img-prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="tr-img-nav tr-img-next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="tr-img-dots"><span class="tr-img-dot active"></span><span class="tr-img-dot"></span></div>
+            <div class="tr-img-veil"></div>
+            <span class="tr-seat-badge"><i class="fa-solid fa-user-group"></i> 8 Seater</span>
+            <span class="tr-ideal-badge">Best for Groups</span>
+            <div class="tr-card-name">
+              <h3>8-Seater Mini Bus</h3>
+              <span>Group Tours · Multi-Generation Trips</span>
+            </div>
+          </div>
+          <div class="tr-card-body">
+            <p class="tr-card-desc">A spacious mini bus for mid-sized groups — ideal for extended families or a small group of friends travelling together, with enough room to stretch out on the long drives between valleys.</p>
+            <div class="tr-specs">
+              <div class="tr-spec"><i class="fa-solid fa-user"></i><div class="sp-val">8</div><div class="sp-lbl">Seats</div></div>
+              <div class="tr-spec"><i class="fa-solid fa-suitcase-rolling"></i><div class="sp-val">8</div><div class="sp-lbl">Bags</div></div>
+              <div class="tr-spec"><i class="fa-solid fa-snowflake"></i><div class="sp-val">AC</div><div class="sp-lbl">Climate</div></div>
+            </div>
+            <div class="tr-feat-list">
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Reclining Seats</span>
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Onboard Music</span>
+              <span class="tr-feat"><i class="fa-solid fa-check"></i>Roof Luggage Rack</span>
+            </div>
+            <div class="tr-card-foot">
+              <div class="tr-price"><span class="pr-lbl">Starting from</span><span class="pr-val">$75 <small>/ day</small></span></div>
+              <a href="index.html#contact" class="tr-enquire">Enquire Now <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        </div>
+
+      <div class="tr-info-strip">
+        <i class="fa-solid fa-circle-info"></i>
+        <p><strong>Good to know:</strong> All vehicles come with a licensed driver, fuel, and applicable road permits included in the daily rate. Vehicle availability may vary in peak festival season (March–May, September–November) — we recommend booking your fleet at least 4–6 weeks ahead.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="events-sec" style="padding:56px 0;">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;">
+      <div>
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;color:var(--white);font-weight:400;">Not sure which <em style="font-style:italic;color:var(--light)">vehicle</em> fits your group?</h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-top:6px;">Our Thimphu team replies within a day, every day.</p>
+      </div>
+      <a href="index.html#contact" class="btn-primary">Talk to Us <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+<!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="script.js"></script>
+  <script>
+    // Mini image slider per vehicle card
+    document.querySelectorAll('.tr-card-img').forEach(box => {
+      const slides = Array.from(box.querySelectorAll('.tr-img-slide'));
+      const dots   = Array.from(box.querySelectorAll('.tr-img-dot'));
+      let idx = 0;
+      function show(i) {
+        idx = (i + slides.length) % slides.length;
+        slides.forEach((s, n) => s.classList.toggle('active', n === idx));
+        dots.forEach((d, n) => d.classList.toggle('active', n === idx));
+      }
+      box.querySelector('.tr-img-prev')?.addEventListener('click', e => { e.stopPropagation(); show(idx - 1); });
+      box.querySelector('.tr-img-next')?.addEventListener('click', e => { e.stopPropagation(); show(idx + 1); });
+      dots.forEach((d, n) => d.addEventListener('click', e => { e.stopPropagation(); show(n); }));
+    });
+
+    // Fallbacks in case script.js doesn't bind these on non-index pages
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+      document.getElementById('btt').classList.toggle('show', window.scrollY > 500);
+    });
+
+    const burger = document.getElementById('burger');
+    const mobOverlay = document.getElementById('mobOverlay');
+    const mobClose = document.getElementById('mobClose');
+    burger?.addEventListener('click', () => { mobOverlay.classList.add('open'); burger.classList.add('open'); });
+    mobClose?.addEventListener('click', () => { mobOverlay.classList.remove('open'); burger.classList.remove('open'); });
+    mobOverlay?.addEventListener('click', (e) => { if (e.target === mobOverlay) { mobOverlay.classList.remove('open'); burger.classList.remove('open'); } });
+
+    document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    document.querySelector('.tr-hero-scroll')?.addEventListener('click', () => {
+      document.querySelector('.crumb-bar')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

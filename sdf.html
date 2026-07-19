@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sustainable Development Fee (SDF) — Ridge & Valley Bhutan Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ═══════════════════════════════════════════════════
+       SDF PAGE — page-specific styles
+       (extends style.css, same big-hero + card language as payment.html)
+    ════════════════════════════════════════════════════ */
+/* ---- BIG HERO ---- */
+    .sdf-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .sdf-hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      background: var(--black-3);
+      animation: kenBurns 9s ease-in-out forwards;
+    }
+    .sdf-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,0.14) 38%,
+        rgba(0,0,0,0.74) 100%
+      );
+    }
+    .sdf-hero-body {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 80px 24px 40px;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .sdf-hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-bottom: 22px; display: block;
+    }
+    .sdf-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      font-weight: 400; color: var(--white);
+      line-height: 0.98; margin-bottom: 22px;
+      letter-spacing: -0.01em;
+    }
+    .sdf-hero h1 em { font-style: italic; font-weight: 500; color: var(--light); }
+    .sdf-hero p {
+      color: rgba(255,255,255,0.75); font-size: 1.08rem;
+      max-width: 580px; margin: 0 auto 8px; line-height: 1.8;
+    }
+    .sdf-hero-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 999px;
+      padding: 10px 24px; margin-top: 26px;
+      font-size: 0.85rem; color: var(--white); font-weight: 500;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .sdf-hero-badge strong { font-family: var(--ff-display); font-style: italic; }
+
+    .sdf-hero-scroll {
+      position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: rgba(255,255,255,0.55); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+      animation: fadeUp 1s ease 0.9s both;
+    }
+    .sdf-hero-scroll i { font-size: 0.9rem; animation: bounceDown 1.8s ease-in-out infinite; }
+    @keyframes bounceDown {
+      0%,100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+
+    /* ---- Breadcrumb ---- */
+    .crumb-bar {
+      position: sticky; top: 72px; z-index: 850;
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .crumb-bar .wrap { padding: 13px 32px; }
+    .info-crumb {
+      font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 8px;
+    }
+    .info-crumb a { color: rgba(255,255,255,0.55); transition: color 0.25s; }
+    .info-crumb a:hover { color: var(--white); }
+    .info-crumb .current { color: var(--white); }
+
+    /* ---- Price banner ---- */
+    .sdf-price-sec { background: var(--black); padding: 64px 0; }
+    .sdf-price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .sdf-price-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-xl);
+      padding: 34px 28px;
+      text-align: center;
+      transition: var(--t);
+    }
+    .sdf-price-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-6px); }
+    .sdf-price-card.hl { background: var(--white); border-color: var(--white); }
+    .sp-label { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 14px; }
+    .sdf-price-card.hl .sp-label { color: var(--muted); }
+    .sp-old { font-size: 1.1rem; color: rgba(255,255,255,0.35); text-decoration: line-through; margin-bottom: 4px; }
+    .sdf-price-card.hl .sp-old { color: var(--muted); }
+    .sp-new { font-family: var(--ff-display); font-size: 2.6rem; color: var(--white); font-weight: 500; line-height: 1; }
+    .sdf-price-card.hl .sp-new { color: var(--black); }
+    .sp-new small { font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.5); }
+    .sdf-price-card.hl .sp-new small { color: var(--muted); }
+    .sp-note { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 10px; }
+    .sdf-price-card.hl .sp-note { color: var(--muted); }
+    .sp-tag {
+      display: inline-block; margin-top: 14px; padding: 5px 14px; border-radius: 999px;
+      background: var(--white); color: var(--black); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+    }
+    .sdf-price-card.hl .sp-tag { background: var(--black); color: var(--white); }
+
+    /* ---- Content section ---- */
+    .sdf-section { background: var(--white); padding: 88px 0 40px; }
+    .sdf-intro { max-width: 780px; margin-bottom: 20px; }
+    .sdf-intro p { color: var(--dark); font-size: 1.1rem; line-height: 1.85; }
+
+    .sdf-block {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 42px;
+      margin: 40px 0;
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+    }
+    .sdf-block::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 5px; height: 100%;
+      background: var(--black);
+      transform: scaleY(0); transform-origin: top;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sdf-block:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: transparent; }
+    .sdf-block:hover::before { transform: scaleY(1); }
+
+    .sdf-block h2 {
+      font-family: var(--ff-display); font-size: 1.55rem; font-weight: 500; color: var(--black);
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .sdf-block h2 i {
+      width: 42px; height: 42px; border-radius: 50%; background: var(--black); color: var(--white);
+      display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0;
+    }
+    .sdf-block p { color: var(--mid); font-size: 1rem; line-height: 1.85; margin-bottom: 14px; }
+    .sdf-block p:last-child { margin-bottom: 0; }
+
+    .sdf-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .sdf-list-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--off-white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 20px 22px;
+      transition: var(--t);
+    }
+    .sdf-list-item:hover { border-color: var(--dark); box-shadow: var(--shadow-sm); transform: translateX(4px); }
+    .sdf-list-num {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+      background: var(--black); color: var(--white); font-family: var(--ff-display); font-style: italic;
+      font-size: 0.88rem; display: flex; align-items: center; justify-content: center;
+    }
+    .sdf-list-item p { margin: 0; font-size: 0.97rem; color: var(--dark); line-height: 1.75; }
+    .sdf-list-item strong { color: var(--black); }
+
+    .sdf-award {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--black); color: rgba(255,255,255,0.82);
+      border-radius: var(--r-lg); padding: 24px 26px; margin-top: 22px;
+      font-size: 0.96rem; line-height: 1.8;
+      position: relative; overflow: hidden;
+    }
+    .sdf-award::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 60%); }
+    .sdf-award i { color: #ffd875; margin-top: 3px; flex-shrink: 0; font-size: 1.2rem; position: relative; }
+    .sdf-award p { position: relative; margin: 0; }
+    .sdf-award strong { color: var(--white); }
+
+    /* ---- Popular places ---- */
+    .sdf-places { background: var(--off-white); padding: 80px 0; margin-top: 20px; }
+    .sp-head { text-align: center; margin-bottom: 48px; }
+    .sp-head .sec-label { display:block; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .sp-head .sec-title { font-family: var(--ff-display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
+    .sp-head .sec-title em { font-style: italic; font-weight: 500; }
+    .sp-head p { color: var(--muted); font-size: 0.96rem; max-width: 520px; margin: 0 auto; }
+
+    .sdf-place-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .sdf-place-card {
+      position: relative; border-radius: var(--r-lg); overflow: hidden; cursor: pointer;
+      height: 380px; transition: var(--t); background: var(--black-2);
+    }
+    .sdf-place-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.28); }
+    .sdf-place-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; filter: grayscale(30%); }
+    .sdf-place-card:hover img { transform: scale(1.09); filter: grayscale(0%); }
+    .sdf-place-veil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 55%); }
+    .sdf-place-num {
+      position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.14); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.85); font-size: 0.78rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sdf-place-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; }
+    .sdf-place-region { font-size: 0.64rem; color: rgba(255,255,255,0.5); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+    .sdf-place-name { font-family: var(--ff-display); font-size: 1.55rem; color: var(--white); font-weight: 500; line-height: 1.2; margin-bottom: 8px; }
+    .sdf-place-desc { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 14px; }
+    .sdf-place-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: var(--white); border-bottom: 1.5px solid rgba(255,255,255,0.5); padding-bottom: 2px; transition: var(--t); }
+    .sdf-place-card:hover .sdf-place-link { border-color: var(--white); gap: 11px; }
+
+    .sp-more { text-align: center; margin-top: 44px; }
+
+    @media (max-width: 1100px) {
+      .sdf-price-grid { grid-template-columns: 1fr; }
+      .sdf-place-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sdf-hero { min-height: 82vh; }
+      .sdf-section { padding: 56px 0 24px; }
+      .sdf-block { padding: 28px 22px; }
+      .sdf-block h2 { font-size: 1.3rem; }
+      .sdf-place-grid { grid-template-columns: 1fr; }
+      .sdf-places { padding: 56px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a active">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Ridge & Valley</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+  <!-- BIG HERO -->
+  <section class="sdf-hero">
+    <img src="images/1_Dochula_Pass-1.jpg" alt="Bhutan hero" class="sdf-hero-bg">
+    <div class="sdf-hero-overlay"></div>
+    <div class="sdf-hero-body">
+      <span class="sdf-hero-eyebrow">Royal Government of Bhutan · Tourism Policy</span>
+      <h1>Sustainable<br/><em>Development Fee</em></h1>
+      <p>High-value, low-impact travel — how Bhutan's SDF protects the Kingdom's culture and environment, and what it means for your trip.</p>
+      <div class="sdf-hero-badge"><i class="fa-solid fa-tag" style="color:#ffd875"></i> 50% Discount Active — <strong>USD 100</strong> per person, per day</div>
+    </div>
+    <div class="sdf-hero-scroll"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="crumb-bar">
+    <div class="wrap">
+      <p class="info-crumb">
+        <a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <a href="travel-info.html">Travel Info</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <span class="current">SDF</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- PRICE BANNER -->
+  <section class="sdf-price-sec">
+    <div class="wrap">
+      <div class="sdf-price-grid">
+        <div class="sdf-price-card hl">
+          <div class="sp-label">Adult SDF Rate</div>
+          <div class="sp-old">USD 200 / night</div>
+          <div class="sp-new">$100 <small>/ night</small></div>
+          <p class="sp-note">Per person, per day — for USD-paying tourists</p>
+          <span class="sp-tag">50% OFF</span>
+        </div>
+        <div class="sdf-price-card">
+          <div class="sp-label">Children 6–12 Years</div>
+          <div class="sp-old">Standard child rate</div>
+          <div class="sp-new">50% <small>off</small></div>
+          <p class="sp-note">Applies to USD-paying children visiting as tourists</p>
+        </div>
+        <div class="sdf-price-card">
+          <div class="sp-label">Border Town Stays</div>
+          <div class="sp-new">Waived <small>24 hrs</small></div>
+          <p class="sp-note">No SDF for guests staying within 24 hours in border towns</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDF CONTENT -->
+  <section class="sdf-section">
+    <div class="wrap">
+
+      <div class="sdf-intro">
+        <p>The Royal Government of Bhutan introduced a set of incentives and policy measures to strengthen the tourism sector, effective from <strong>1 September 2023</strong> through <strong>31 August 2027</strong>. The move reflects how important tourism is to Bhutan — creating jobs, bringing in foreign exchange, supporting related industries, and driving broader economic growth.</p>
+      </div>
+
+      <!-- INCENTIVES -->
+      <div class="sdf-block">
+        <h2><i class="fa-solid fa-circle-check"></i> The Current Incentives</h2>
+        <div class="sdf-list">
+          <div class="sdf-list-item">
+            <span class="sdf-list-num">1</span>
+            <p>USD-paying tourists now receive a <strong>50% discount</strong> on the standard SDF of $200, bringing the effective rate to <strong>$100 per person, per day</strong>.</p>
+          </div>
+          <div class="sdf-list-item">
+            <span class="sdf-list-num">2</span>
+            <p>The same <strong>50% discount</strong> applies to the SDF rate for USD-paying children between the ages of <strong>6 and 12</strong> travelling as tourists.</p>
+          </div>
+          <div class="sdf-list-item">
+            <span class="sdf-list-num">3</span>
+            <p>Guests staying in Bhutan's <strong>border towns for up to 24 hours</strong> continue to enjoy a full SDF waiver.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRIEF HISTORY -->
+      <div class="sdf-block">
+        <h2><i class="fa-solid fa-book-open"></i> A Brief History of the SDF</h2>
+        <p>Bhutan has earned global recognition for its distinctive approach to tourism, deliberately prioritising cultural heritage and natural resources over sheer visitor numbers. Every guest now contributes a Sustainable Development Fee, a step up from the earlier $65 charge, in line with the country's "high value, low volume" tourism philosophy — welcoming fewer visitors, but ensuring every trip supports the Kingdom's long-term wellbeing.</p>
+        <p>Bhutan backs this philosophy with real action: responsible waste management, active efforts to cut carbon emissions, and a genuine commitment to eco-friendly travel across the country.</p>
+        <div class="sdf-award">
+          <i class="fa-solid fa-award"></i>
+          <p><strong>Recognised globally:</strong> In 2020, Bhutan received the Sustainable Tourism Award from the World Tourism Organization — a mark of its continued commitment to responsible, sustainable travel.</p>
+        </div>
+      </div>
+
+      <!-- WHAT IT FUNDS -->
+      <div class="sdf-block">
+        <h2><i class="fa-solid fa-seedling"></i> Where Your SDF Goes</h2>
+        <p>The Sustainable Development Fee directly funds programmes that keep Bhutan Bhutan — preserving cultural traditions, protecting heritage sites and the environment, upgrading infrastructure, creating opportunities for young Bhutanese, and building long-term resilience across the Kingdom. Every night you stay is an investment in the place you came to see.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- POPULAR PLACES -->
+  <section class="sdf-places">
+    <div class="wrap">
+      <div class="sp-head">
+        <span class="sec-label">While You're Here</span>
+        <h2 class="sec-title">Popular Places to <em>Visit</em></h2>
+        <p>A few favourites among travellers making the most of their SDF-included journey through Bhutan.</p>
+      </div>
+
+      <div class="sdf-place-grid">
+        <a href="place.html" class="sdf-place-card">
+          <img src="images/Paro copy.jpg" alt="Paro" onerror="this.style.background='#1a1a1a'">
+          <div class="sdf-place-veil"></div>
+          <span class="sdf-place-num">01</span>
+          <div class="sdf-place-info">
+            <div class="sdf-place-region">Western Bhutan</div>
+            <div class="sdf-place-name">Paro</div>
+            <p class="sdf-place-desc">Home to the legendary Tiger's Nest Monastery, painted farmhouses, and Bhutan's only international airport.</p>
+            <span class="sdf-place-link">Explore Paro <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="sdf-place-card">
+          <img src="images/Thimpu.avif" alt="Thimphu" onerror="this.style.background='#1a1a1a'">
+          <div class="sdf-place-veil"></div>
+          <span class="sdf-place-num">02</span>
+          <div class="sdf-place-info">
+            <div class="sdf-place-region">Western Bhutan</div>
+            <div class="sdf-place-name">Thimphu</div>
+            <p class="sdf-place-desc">The capital city — home to the giant Buddha Dordenma, the Royal Family, and a lively weekend market.</p>
+            <span class="sdf-place-link">Explore Thimphu <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="sdf-place-card">
+          <img src="images/Punakha-Valley.webp" alt="Punakha" onerror="this.style.background='#1a1a1a'">
+          <div class="sdf-place-veil"></div>
+          <span class="sdf-place-num">03</span>
+          <div class="sdf-place-info">
+            <div class="sdf-place-region">Western Bhutan</div>
+            <div class="sdf-place-name">Punakha</div>
+            <p class="sdf-place-desc">Bhutan's former capital, where the stunning Punakha Dzong sits at the meeting point of two sacred rivers.</p>
+            <span class="sdf-place-link">Explore Punakha <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="sp-more">
+        <a href="place.html" class="btn-primary dark">See All Destinations <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="events-sec" style="padding:56px 0;">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;">
+      <div>
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;color:var(--white);font-weight:400;">Still have <em style="font-style:italic;color:var(--light)">questions?</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-top:6px;">Our Thimphu team replies within a day, every day.</p>
+      </div>
+      <a href="index.html#contact" class="btn-primary">Talk to Us <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+<!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="script.js"></script>
+  <script>
+    // Fallbacks in case script.js doesn't bind these on non-index pages
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+      document.getElementById('btt').classList.toggle('show', window.scrollY > 500);
+    });
+
+    const burger = document.getElementById('burger');
+    const mobOverlay = document.getElementById('mobOverlay');
+    const mobClose = document.getElementById('mobClose');
+    burger?.addEventListener('click', () => { mobOverlay.classList.add('open'); burger.classList.add('open'); });
+    mobClose?.addEventListener('click', () => { mobOverlay.classList.remove('open'); burger.classList.remove('open'); });
+    mobOverlay?.addEventListener('click', (e) => { if (e.target === mobOverlay) { mobOverlay.classList.remove('open'); burger.classList.remove('open'); } });
+
+    document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    document.querySelector('.sdf-hero-scroll')?.addEventListener('click', () => {
+      document.querySelector('.crumb-bar')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

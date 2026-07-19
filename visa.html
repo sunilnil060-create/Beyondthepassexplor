@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visa Requirements — Ridge & Valley Bhutan Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ---- BIG HERO ---- */
+    .visa-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .visa-hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      background: var(--black-3);
+      animation: kenBurns 9s ease-in-out forwards;
+    }
+    .visa-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,0.14) 38%,
+        rgba(0,0,0,0.74) 100%
+      );
+    }
+    .visa-hero-body {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 80px 24px 40px;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .visa-hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-bottom: 22px; display: block;
+    }
+    .visa-hero h1 {
+      font-family: var(--ff-display);
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      font-weight: 400; color: var(--white);
+      line-height: 0.98; margin-bottom: 22px;
+      letter-spacing: -0.01em;
+    }
+    .visa-hero h1 em { font-style: italic; font-weight: 500; color: var(--light); }
+    .visa-hero p {
+      color: rgba(255,255,255,0.75); font-size: 1.08rem;
+      max-width: 580px; margin: 0 auto 8px; line-height: 1.8;
+    }
+    .visa-hero-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 999px;
+      padding: 10px 24px; margin-top: 26px;
+      font-size: 0.85rem; color: var(--white); font-weight: 500;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .visa-hero-badge strong { font-family: var(--ff-display); font-style: italic; }
+
+    .visa-hero-scroll {
+      position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: rgba(255,255,255,0.55); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+      animation: fadeUp 1s ease 0.9s both;
+    }
+    .visa-hero-scroll i { font-size: 0.9rem; animation: bounceDown 1.8s ease-in-out infinite; }
+    @keyframes bounceDown {
+      0%,100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+
+    /* ---- Breadcrumb ---- */
+    .crumb-bar {
+      position: sticky; top: 72px; z-index: 850;
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .crumb-bar .wrap { padding: 13px 32px; }
+    .info-crumb {
+      font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 8px;
+    }
+    .info-crumb a { color: rgba(255,255,255,0.55); transition: color 0.25s; }
+    .info-crumb a:hover { color: var(--white); }
+    .info-crumb .current { color: var(--white); }
+
+    /* ---- Quick facts banner ---- */
+    .visa-fact-sec { background: var(--black); padding: 64px 0; }
+    .visa-fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .visa-fact-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      text-align: center;
+      transition: var(--t);
+    }
+    .visa-fact-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-6px); }
+    .vf-icon {
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;
+      color: var(--white); font-size: 1.05rem;
+    }
+    .vf-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .vf-value { font-family: var(--ff-display); font-size: 1.5rem; color: var(--white); font-weight: 500; line-height: 1.2; }
+    .vf-value small { font-size: 0.85rem; font-weight: 400; color: rgba(255,255,255,0.5); display: block; margin-top: 4px; }
+
+    /* ---- Content section ---- */
+    .visa-section { background: var(--white); padding: 88px 0 40px; }
+    .visa-intro { max-width: 780px; margin-bottom: 20px; }
+    .visa-intro p { color: var(--dark); font-size: 1.1rem; line-height: 1.85; }
+
+    .visa-block {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 42px;
+      margin: 40px 0;
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+    }
+    .visa-block::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 5px; height: 100%;
+      background: var(--black);
+      transform: scaleY(0); transform-origin: top;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .visa-block:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: transparent; }
+    .visa-block:hover::before { transform: scaleY(1); }
+
+    .visa-block h2 {
+      font-family: var(--ff-display); font-size: 1.55rem; font-weight: 500; color: var(--black);
+      margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    }
+    .visa-block h2 i {
+      width: 42px; height: 42px; border-radius: 50%; background: var(--black); color: var(--white);
+      display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0;
+    }
+    .visa-block p { color: var(--mid); font-size: 1rem; line-height: 1.85; margin-bottom: 14px; }
+    .visa-block p:last-child { margin-bottom: 0; }
+
+    .visa-list { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .visa-list-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--off-white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 20px 22px;
+      transition: var(--t);
+    }
+    .visa-list-item:hover { border-color: var(--dark); box-shadow: var(--shadow-sm); transform: translateX(4px); }
+    .visa-list-num {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+      background: var(--black); color: var(--white); font-family: var(--ff-display); font-style: italic;
+      font-size: 0.88rem; display: flex; align-items: center; justify-content: center;
+    }
+    .visa-list-item p { margin: 0; font-size: 0.97rem; color: var(--dark); line-height: 1.75; }
+    .visa-list-item strong { color: var(--black); }
+
+    .visa-note {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--black); color: rgba(255,255,255,0.82);
+      border-radius: var(--r-lg); padding: 24px 26px; margin-top: 22px;
+      font-size: 0.96rem; line-height: 1.8;
+      position: relative; overflow: hidden;
+    }
+    .visa-note::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 60%); }
+    .visa-note i { color: #ffd875; margin-top: 3px; flex-shrink: 0; font-size: 1.2rem; position: relative; }
+    .visa-note p { position: relative; margin: 0; }
+    .visa-note strong { color: var(--white); }
+
+    /* Entry points table-ish cards */
+    .entry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 18px; }
+    .entry-card {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--off-white); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 18px 20px;
+      transition: var(--t);
+    }
+    .entry-card:hover { border-color: var(--dark); transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+    .entry-card i { font-size: 1.1rem; color: var(--black); flex-shrink: 0; width: 34px; text-align: center; }
+    .entry-card strong { display: block; font-size: 0.92rem; color: var(--black); margin-bottom: 2px; }
+    .entry-card span { font-size: 0.78rem; color: var(--muted); }
+
+    .flight-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .flight-chip {
+      background: var(--off-white); border: 1px solid var(--border); border-radius: 999px;
+      padding: 7px 16px; font-size: 0.82rem; color: var(--dark); display: inline-flex; align-items: center; gap: 6px;
+      transition: var(--t);
+    }
+    .flight-chip:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .flight-chip i { font-size: 0.7rem; color: var(--muted); }
+    .flight-chip:hover i { color: var(--white); }
+
+    /* ---- Popular places (shared visual language with sdf.html) ---- */
+    .visa-places { background: var(--off-white); padding: 80px 0; margin-top: 20px; }
+    .vp-head { text-align: center; margin-bottom: 48px; }
+    .vp-head .sec-label { display:block; font-size:0.68rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+    .vp-head .sec-title { font-family: var(--ff-display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 400; color: var(--black); margin-bottom: 12px; }
+    .vp-head .sec-title em { font-style: italic; font-weight: 500; }
+    .vp-head p { color: var(--muted); font-size: 0.96rem; max-width: 520px; margin: 0 auto; }
+
+    .visa-place-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .visa-place-card {
+      position: relative; border-radius: var(--r-lg); overflow: hidden; cursor: pointer;
+      height: 380px; transition: var(--t); background: var(--black-2);
+    }
+    .visa-place-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.28); }
+    .visa-place-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; filter: grayscale(30%); }
+    .visa-place-card:hover img { transform: scale(1.09); filter: grayscale(0%); }
+    .visa-place-veil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 55%); }
+    .visa-place-num {
+      position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.14); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.85); font-size: 0.78rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .visa-place-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; }
+    .visa-place-region { font-size: 0.64rem; color: rgba(255,255,255,0.5); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+    .visa-place-name { font-family: var(--ff-display); font-size: 1.55rem; color: var(--white); font-weight: 500; line-height: 1.2; margin-bottom: 8px; }
+    .visa-place-desc { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 14px; }
+    .visa-place-link { display: inline-flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: var(--white); border-bottom: 1.5px solid rgba(255,255,255,0.5); padding-bottom: 2px; transition: var(--t); }
+    .visa-place-card:hover .visa-place-link { border-color: var(--white); gap: 11px; }
+
+    .vp-more { text-align: center; margin-top: 44px; }
+
+    @media (max-width: 1100px) {
+      .visa-fact-grid { grid-template-columns: 1fr 1fr; }
+      .visa-place-grid { grid-template-columns: 1fr 1fr; }
+      .entry-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .visa-hero { min-height: 82vh; }
+      .visa-section { padding: 56px 0 24px; }
+      .visa-block { padding: 28px 22px; }
+      .visa-block h2 { font-size: 1.3rem; }
+      .visa-place-grid { grid-template-columns: 1fr; }
+      .visa-places { padding: 56px 0; }
+      .visa-fact-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+              <span></span>
+              <!-- <span>Jomolhari Trek departures filling fast for this season</span> -->
+               <span>Since 2019</span> 
+              <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a active">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="map.htm" class="nav-a">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <!-- LOGGED IN STATE -->
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <!-- AUTH STATE -->
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- SIGN IN -->
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Ridge & Valley</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="about.html">About</a>
+      <a href="map.htm">Location</a>
+      <a href="review.html">Review</a>
+      <a href="admin-dashboard.html" class="nav-a" id="adminNavLink" style="display:none">Admin</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+  <!-- BIG HERO -->
+  <section class="visa-hero">
+    <img src="images/dac67f21183279a32942a9f2c55e72a9.webp" alt="Bhutan hero" class="visa-hero-bg">
+    <div class="visa-hero-overlay"></div>
+    <div class="visa-hero-body">
+      <span class="visa-hero-eyebrow">Department of Immigration · Ministry of Home & Cultural Affairs</span>
+      <h1>Visa<br/><em>Requirements</em></h1>
+      <p>Everything you need to know about entering Bhutan — who needs a visa, what it costs, and the documents you'll need to have ready.</p>
+      <div class="visa-hero-badge"><i class="fa-solid fa-stamp" style="color:#ffd875"></i> USD 40 Visa Fee — Processed in as little as a few days</div>
+    </div>
+    <div class="visa-hero-scroll"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="crumb-bar">
+    <div class="wrap">
+      <p class="info-crumb">
+        <a href="index.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <a href="travel-info.html">Travel Info</a> <i class="fa-solid fa-chevron-right" style="font-size:8px"></i>
+        <span class="current">Visa Requirements</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- QUICK FACTS -->
+  <section class="visa-fact-sec">
+    <div class="wrap">
+      <div class="visa-fact-grid">
+        <div class="visa-fact-card">
+          <div class="vf-icon"><i class="fa-solid fa-building-shield"></i></div>
+          <div class="vf-label">Issuing Authority</div>
+          <div class="vf-value" style="font-size:1.05rem;">Department of Immigration</div>
+        </div>
+        <div class="visa-fact-card">
+          <div class="vf-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+          <div class="vf-label">Visa Fee</div>
+          <div class="vf-value">$40 <small>per person, non-refundable</small></div>
+        </div>
+        <div class="visa-fact-card">
+          <div class="vf-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="vf-label">Processing Time</div>
+          <div class="vf-value">Up to 5 <small>working days</small></div>
+        </div>
+        <div class="visa-fact-card">
+          <div class="vf-icon"><i class="fa-solid fa-id-card"></i></div>
+          <div class="vf-label">Indian Nationals</div>
+          <div class="vf-value" style="font-size:1.15rem;">Permit <small>instead of a visa</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISA CONTENT -->
+  <section class="visa-section">
+    <div class="wrap">
+
+      <div class="visa-intro">
+        <p>The Department of Immigration, under the Ministry of Home and Cultural Affairs, is the sole authority responsible for issuing visas to Bhutan. Indian visitors are the exception — they travel on a permit rather than a visa. Every other nationality is required to obtain a visa before their trip.</p>
+      </div>
+
+      <!-- VISA ON ARRIVAL -->
+      <div class="visa-block">
+        <h2><i class="fa-solid fa-plane-arrival"></i> Visa on Arrival</h2>
+        <p>Nationals of <strong>Bangladesh</strong> and the <strong>Maldives</strong> are eligible to obtain their visa on arrival at the port of entry. Nationals of <strong>Switzerland</strong> and <strong>Thailand</strong> travelling on diplomatic or official passports are also eligible for a visa on arrival.</p>
+        <p>Even though visa-on-arrival is available, we recommend applying online ahead of time — it cuts down waiting time and makes clearance at the port of entry noticeably faster. Guests eligible for a visa on arrival will also need to pay the applicable SDF in USD at the point of entry.</p>
+      </div>
+
+      <!-- FEE & DOCUMENTS -->
+      <div class="visa-block">
+        <h2><i class="fa-solid fa-file-lines"></i> Visa Fee &amp; Required Documents</h2>
+        <p>The visa fee is <strong>USD 40 per person</strong> and is non-refundable. Processing is usually quick, though it can take up to <strong>five working days</strong>, so it's best to apply a little ahead of your travel dates.</p>
+        <div class="visa-list">
+          <div class="visa-list-item">
+            <span class="visa-list-num">1</span>
+            <p>A copy of your <strong>passport</strong>, valid for at least six months from your date of travel.</p>
+          </div>
+          <div class="visa-list-item">
+            <span class="visa-list-num">2</span>
+            <p>Travel insurance is <strong>no longer mandatory</strong> — the requirement introduced during the pandemic was withdrawn on <strong>23 April 2024</strong>. That said, we still recommend having coverage in place as a precaution against unforeseen emergencies while travelling internationally.</p>
+          </div>
+          <div class="visa-list-item">
+            <span class="visa-list-num">3</span>
+            <p>A recent <strong>passport-size photograph</strong>.</p>
+          </div>
+        </div>
+        <div class="visa-note">
+          <i class="fa-solid fa-circle-info"></i>
+          <p><strong>Good to know:</strong> Our team can guide you through the online application and make sure everything is submitted correctly the first time — just reach out and we'll take care of the details.</p>
+        </div>
+      </div>
+
+      <!-- GETTING TO BHUTAN -->
+      <div class="visa-block">
+        <h2><i class="fa-solid fa-route"></i> Getting to Bhutan</h2>
+        <p>Bhutan is served by two national carriers, <strong>Drukair</strong> and <strong>Bhutan Airlines</strong>, both operating direct flights into Paro International Airport from destinations across the region:</p>
+        <div class="flight-chips">
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Dhaka, Bangladesh</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Bagdogra, India</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Gauhati, India</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Kolkata, India</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> New Delhi, India</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Kathmandu, Nepal</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Singapore</span>
+          <span class="flight-chip"><i class="fa-solid fa-plane"></i> Bangkok, Thailand</span>
+        </div>
+        <p style="margin-top:22px;">Travelling by road from India? Bhutan has four official land entry points:</p>
+        <div class="entry-grid">
+          <div class="entry-card"><i class="fa-solid fa-road"></i><div><strong>Samtse</strong><span>Western Bhutan</span></div></div>
+          <div class="entry-card"><i class="fa-solid fa-road"></i><div><strong>Phuentsholing</strong><span>Western Bhutan</span></div></div>
+          <div class="entry-card"><i class="fa-solid fa-road"></i><div><strong>Gelephu</strong><span>Central Bhutan</span></div></div>
+          <div class="entry-card"><i class="fa-solid fa-road"></i><div><strong>Samdrup Jongkhar</strong><span>Eastern Bhutan</span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- POPULAR PLACES -->
+  <section class="visa-places">
+    <div class="wrap">
+      <div class="vp-head">
+        <span class="sec-label">Once You've Landed</span>
+        <h2 class="sec-title">Popular Places to <em>Visit</em></h2>
+        <p>A few favourites to build your itinerary around once your visa is sorted and you've touched down in Bhutan.</p>
+      </div>
+
+      <div class="visa-place-grid">
+        <a href="place.html" class="visa-place-card">
+          <img src="images/Paro copy.jpg" alt="Paro" onerror="this.style.background='#1a1a1a'">
+          <div class="visa-place-veil"></div>
+          <span class="visa-place-num">01</span>
+          <div class="visa-place-info">
+            <div class="visa-place-region">Western Bhutan</div>
+            <div class="visa-place-name">Paro</div>
+            <p class="visa-place-desc">Where you'll land — home to the legendary Tiger's Nest Monastery and Bhutan's only international airport.</p>
+            <span class="visa-place-link">Explore Paro <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="visa-place-card">
+          <img src="images/Thimpu.avif" alt="Thimphu" onerror="this.style.background='#1a1a1a'">
+          <div class="visa-place-veil"></div>
+          <span class="visa-place-num">02</span>
+          <div class="visa-place-info">
+            <div class="visa-place-region">Western Bhutan</div>
+            <div class="visa-place-name">Thimphu</div>
+            <p class="visa-place-desc">A short drive from Paro, the capital blends the Royal Family's seat of government with lively local markets.</p>
+            <span class="visa-place-link">Explore Thimphu <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="place.html" class="visa-place-card">
+          <img src="images/Bumthang-Dzong-.jpg" alt="Bumthang" onerror="this.style.background='#1a1a1a'">
+          <div class="visa-place-veil"></div>
+          <span class="visa-place-num">03</span>
+          <div class="visa-place-info">
+            <div class="visa-place-region">Central Bhutan</div>
+            <div class="visa-place-name">Bumthang</div>
+            <p class="visa-place-desc">Bhutan's spiritual heartland — four sacred valleys filled with some of the oldest temples in the Himalayas.</p>
+            <span class="visa-place-link">Explore Bumthang <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="vp-more">
+        <a href="place.html" class="btn-primary dark">See All Destinations <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="events-sec" style="padding:56px 0;">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;">
+      <div>
+        <h3 style="font-family:var(--ff-display);font-size:1.5rem;color:var(--white);font-weight:400;">Still have <em style="font-style:italic;color:var(--light)">questions?</em></h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-top:6px;">Our Thimphu team replies within a day, every day.</p>
+      </div>
+      <a href="index.html#contact" class="btn-primary">Talk to Us <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+<!-- FOOTER (identical to site footer) -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© 2026 Beyond The Pass Exploration. Licensed by Tourism Council of Bhutan.</p>
+        <div class="fb-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="btt" id="btt" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script src="script.js"></script>
+  <script>
+    // Fallbacks in case script.js doesn't bind these on non-index pages
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+      document.getElementById('btt').classList.toggle('show', window.scrollY > 500);
+    });
+
+    const burger = document.getElementById('burger');
+    const mobOverlay = document.getElementById('mobOverlay');
+    const mobClose = document.getElementById('mobClose');
+    burger?.addEventListener('click', () => { mobOverlay.classList.add('open'); burger.classList.add('open'); });
+    mobClose?.addEventListener('click', () => { mobOverlay.classList.remove('open'); burger.classList.remove('open'); });
+    mobOverlay?.addEventListener('click', (e) => { if (e.target === mobOverlay) { mobOverlay.classList.remove('open'); burger.classList.remove('open'); } });
+
+    document.getElementById('btt').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    document.querySelector('.visa-hero-scroll')?.addEventListener('click', () => {
+      document.querySelector('.crumb-bar')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

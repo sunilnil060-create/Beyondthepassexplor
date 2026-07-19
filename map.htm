@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Dzongkhag Map — Beyond The Pass Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       MAP-PAGE-ONLY OVERRIDES
+       (site header/ticker/nav styles all come from style.css —
+        everything below only concerns the map app area)
+    ════════════════════════════════════════════════════ */
+    :root{ --bc-h: 34px; --sheet-peek: 56px; }
+
+    html, body { height: auto; }
+    body.map-page { overflow: hidden; }
+
+    /* Breadcrumb strip, sits in normal flow right below the fixed header */
+    #breadcrumb{
+      margin-top: var(--header-h);
+      height: var(--bc-h);
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 32px;
+    }
+    .bc-item{ font-size: 11.5px; color: var(--muted); text-decoration: none; }
+    .bc-item:hover{ color: var(--black); }
+    .bc-sep{ color: var(--border); font-size: 10px; }
+    .bc-current{ font-size: 11.5px; color: var(--black); font-weight: 600; }
+
+    /* The map app fills the rest of the viewport, no page scroll */
+    #map-app{
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      top: 0; /* set precisely by JS to match the real header height below */
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Search + layer control bar, sits inline above the map on this page
+       instead of being baked into the topbar */
+    #map-toolbar{
+      position: absolute; top: 14px; left: 68px; right: 14px; z-index: 600;
+      display: flex; gap: 10px; pointer-events: none;
+    }
+    @media (max-width: 640px){ #map-toolbar{ left: 14px; } }
+    #map-toolbar > *{ pointer-events: all; }
+
+    #search-box{
+      flex: 1; max-width: 320px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-size: 13.5px; color: var(--black);
+      outline: none; box-shadow: var(--shadow-sm);
+      transition: border-color .2s;
+    }
+    #search-box::placeholder{ color: var(--muted); }
+    #search-box:focus{ border-color: var(--black); }
+
+    #layer-btn{
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px;
+      font-size: 12px; color: var(--dark); cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      flex-shrink: 0; box-shadow: var(--shadow-sm);
+      transition: var(--t);
+    }
+    #layer-btn:hover{ background: var(--off-white); }
+
+    /* ── DESKTOP SIDE PANEL ── */
+    #side-panel{
+      position: absolute; top: 0; left: 0; bottom: 0; width: 52px;
+      background: var(--black);
+      display: flex; flex-direction: column; z-index: 500;
+      transition: width .32s cubic-bezier(.4,0,.2,1);
+      overflow: hidden; box-shadow: 3px 0 18px rgba(0,0,0,0.18);
+    }
+    #side-panel.open{ width: 280px; }
+
+    #panel-toggle{
+      width: 52px; min-height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+    #panel-toggle:hover{ background: rgba(255,255,255,0.06); }
+    #panel-toggle svg{ transition: transform .32s; }
+    #side-panel.open #panel-toggle svg{ transform: rotate(180deg); }
+
+    #panel-content{
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      opacity: 0; pointer-events: none;
+      transition: opacity .18s .14s;
+      min-width: 280px;
+    }
+    #side-panel.open #panel-content{ opacity: 1; pointer-events: auto; }
+
+    .panel-header{ padding: 18px 18px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .panel-header h2{ font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .panel-header p{ font-size: 11.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+    .dzong-label{
+      padding: 14px 18px 6px; font-size: 9.5px; text-transform: uppercase;
+      letter-spacing: 1.2px; color: rgba(255,255,255,0.28); font-weight: 700;
+    }
+
+    .dzong-chip{
+      display: flex; align-items: center; gap: 11px; padding: 10px 18px;
+      cursor: pointer; border-left: 3px solid transparent;
+      white-space: nowrap; min-height: 44px;
+    }
+    .dzong-chip:hover{ background: rgba(255,255,255,0.05); border-left-color: rgba(255,255,255,0.4); }
+    .dzong-chip.active{ background: rgba(255,255,255,0.08); border-left-color: var(--white); }
+    .dzong-chip .dot{ width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 1.5px rgba(255,255,255,0.15); }
+    .dzong-chip span{ font-size: 13px; color: rgba(255,255,255,0.8); }
+
+    #collapsed-hint{ display: flex; flex-direction: column; align-items: center; padding: 12px 0; gap: 6px; }
+    #side-panel.open #collapsed-hint{ display: none; }
+    .hint-dot{ width: 6px; height: 6px; border-radius: 50%; opacity: .6; }
+
+    /* ── MOBILE BOTTOM SHEET ── */
+    #dzong-sheet{
+      display: none; position: absolute; left: 0; right: 0; bottom: 0;
+      background: var(--black); border-radius: 18px 18px 0 0; z-index: 500;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+      transform: translateY(calc(100% - var(--sheet-peek)));
+      overflow: hidden; max-height: 72vh;
+    }
+    #dzong-sheet.open{ transform: translateY(0); }
+
+    #sheet-handle-area{
+      padding: 12px 0 8px; display: flex; flex-direction: column; align-items: center; gap: 7px;
+      cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sheet-pill{ width: 36px; height: 4px; background: rgba(255,255,255,0.25); border-radius: 2px; }
+    #sheet-label{ font-size: 12px; color: var(--white); font-weight: 600; letter-spacing: 0.3px; }
+    #sheet-body{ overflow-y: auto; max-height: calc(72vh - 60px); }
+
+    #map-wrapper{ flex: 1; position: relative; }
+    #map{ width: 100%; height: 100%; }
+
+    /* ── POPUP ── */
+    .leaflet-popup-content-wrapper{
+      border-radius: var(--r-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      padding: 0; overflow: hidden; border: none;
+      max-width: min(270px,calc(100vw - 32px)) !important;
+    }
+    .leaflet-popup-content{
+      margin: 0 !important; width: min(270px,calc(100vw - 32px)) !important;
+      max-height: 55vh; overflow-y: auto;
+    }
+    .popup-right .leaflet-popup-tip-container{ display: none; }
+    .pu-header{ padding: 12px 14px 10px; color: var(--white); position: sticky; top: 0; z-index: 1; }
+    .pu-header h3{ font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; }
+    .pu-sub{ font-size: 9px; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
+    .pu-body{ background: var(--white); padding: 11px 14px 13px; }
+    .pu-tags{ display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 9px; }
+    .pu-tag{ font-size: 9.5px; background: var(--off-white); color: var(--dark); border: 1px solid var(--border); border-radius: 20px; padding: 3px 9px; font-weight: 600; }
+    .pu-desc{ font-size: 11.5px; color: var(--mid); line-height: 1.6; margin-bottom: 11px; }
+    .pu-link{
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--black); color: var(--white); text-decoration: none;
+      font-size: 11px; font-weight: 600; padding: 8px 13px; border-radius: var(--r);
+      transition: var(--t);
+    }
+    .pu-link:hover{ background: var(--dark); }
+
+    /* ── LAYER MENU ── */
+    #layer-menu{
+      display: none; position: absolute; top: 60px; right: 14px;
+      background: var(--white); border-radius: 10px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.18); z-index: 2000;
+      overflow: hidden; min-width: 190px; border: 1px solid var(--border);
+    }
+    #layer-menu.open{ display: block; }
+    .layer-option{
+      padding: 12px 16px; font-size: 13px; color: var(--mid); cursor: pointer;
+      display: flex; align-items: center; gap: 10px; min-height: 44px;
+    }
+    .layer-option:hover{ background: var(--off-white); color: var(--black); }
+    .layer-option.active{ color: var(--black); font-weight: 700; background: var(--off-white); }
+    .layer-option .swatch{ width: 15px; height: 15px; border-radius: 3px; border: 1px solid var(--border); flex-shrink: 0; }
+
+    /* ── LOADING ── */
+    #map-loading{
+      position: absolute; inset: 0; background: rgba(245,245,245,0.9);
+      display: flex; align-items: center; justify-content: center; z-index: 800;
+      font-size: 13px; color: var(--mid); gap: 10px; pointer-events: none;
+    }
+    #map-loading svg{ animation: mapSpin 1s linear infinite; }
+    @keyframes mapSpin{ to{ transform: rotate(360deg); } }
+
+    .leaflet-control-attribution{ font-size: 10px !important; background: rgba(255,255,255,0.75) !important; }
+    .leaflet-control-zoom{ margin-bottom: 70px !important; }
+    .leaflet-control-zoom a{ color: var(--black) !important; }
+
+    @media (max-width: 640px){
+      #side-panel{ display: none !important; }
+      #dzong-sheet{ display: flex; flex-direction: column; }
+      .leaflet-popup-content{ width: min(88vw,280px) !important; }
+      .popup-right .leaflet-popup-tip-container{ display: block; }
+      #layer-menu{ top: auto; bottom: calc(var(--sheet-peek) + 100px); right: 14px; }
+      .leaflet-control-zoom{ margin-bottom: calc(var(--sheet-peek) + 12px) !important; }
+      .leaflet-bottom.leaflet-right{ bottom: calc(var(--sheet-peek) + 4px) !important; }
+    }
+    @media (min-width: 641px){
+      #dzong-sheet{ display: none !important; }
+      #side-panel{ display: flex !important; }
+    }
+  </style>
+</head>
+<body class="map-page">
+
+<!-- HEADER (matches index.html exactly) -->
+<header id="header">
+  <div class="hdr-inner">
+    <a href="index.html#home" class="logo">
+      <img src="img/finallogo2.jpeg" alt="Beyond The Pass Exploration" class="logo-img"/>
+      <div class="logo-text">
+        <span class="logo-name"></span>
+        <span class="logo-tag"></span>
+      </div>
+    </a>
+
+    <div class="hdr-middle">
+      <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-track">
+          <div class="ticker-content" id="tickerContent">
+            <span>Most Trusted Travel Agent</span>
+            <span></span>
+            <span>Since 2019</span>
+            <span>DOT Licensed Operator 50001643</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html#home" class="nav-a">Home</a>
+        <a href="tour.html" class="nav-a">Tours</a>
+        <a href="place.html" class="nav-a">Places</a>
+        <a href="travel-info.html" class="nav-a">Travel Info</a>
+        <a href="about.html" class="nav-a">About</a>
+        <a href="dzongkhag-map.html" class="nav-a active">Location</a>
+        <a href="review.html" class="nav-a">Review</a>
+        <a href="admin-dashboard.html" class="nav-a" id="adminNavLinkDesktop" style="display:none">Admin</a>
+      </nav>
+    </div>
+
+    <div class="hdr-right">
+      <a href="plan-trip.html" class="hdr-btn">Plan My Trip</a>
+      <div class="login-popup-wrapper">
+        <button class="hdr-login-btn" id="loginTrigger">
+          <i class="fa-solid fa-user"></i> <span id="loginBtnLabel">Login</span>
+        </button>
+        <div class="login-popup" id="loginPopup">
+          <div class="popup-arrow"></div>
+
+          <div class="lp-panel" id="panel-loggedin" style="display:none">
+            <div class="lp-user-avatar" id="lpAvatar">U</div>
+            <p class="lp-user-name" id="lpName">User</p>
+            <p class="lp-user-email" id="lpEmail">user@email.com</p>
+            <button class="lp-submit lp-logout-btn" id="lpLogout">Sign Out</button>
+          </div>
+
+          <div id="panel-auth">
+            <div class="lp-tabs">
+              <button class="lp-tab active" data-tab="signin">Sign In</button>
+              <button class="lp-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <div class="lp-panel" id="panel-signin">
+              <button class="fb-login-btn" id="fbSignin"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignin"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="email" id="si-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="si-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="si-password" placeholder="Password" autocomplete="current-password"/>
+                  <button type="button" class="lp-eye" data-target="si-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <span class="lp-err" id="si-pw-err"></span>
+              </div>
+              <a href="#" class="lp-forgot" id="forgotLink">Forgot password?</a>
+              <button class="lp-submit" id="siSubmit">Sign In</button>
+              <p class="lp-switch">No account? <a href="#" data-switch="signup">Sign up</a></p>
+            </div>
+
+            <div class="lp-panel" id="panel-signup" style="display:none">
+              <button class="fb-login-btn" id="fbSignup"><i class="fa-brands fa-facebook-f"></i> Continue with Facebook</button>
+              <button class="google-login-btn" id="googleSignup"><i class="fa-brands fa-google"></i> Continue with Google</button>
+              <div class="lp-or"><span>or</span></div>
+              <div class="lp-field">
+                <input type="text" id="su-name" placeholder="Full name" autocomplete="name"/>
+                <span class="lp-err" id="su-name-err"></span>
+              </div>
+              <div class="lp-field">
+                <input type="email" id="su-email" placeholder="Email address" autocomplete="email"/>
+                <span class="lp-err" id="su-email-err"></span>
+              </div>
+              <div class="lp-field">
+                <div class="lp-pw-wrap">
+                  <input type="password" id="su-password" placeholder="Create password (min 6 chars)" autocomplete="new-password"/>
+                  <button type="button" class="lp-eye" data-target="su-password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <div class="lp-strength" id="su-strength"><div class="lp-strength-bar" id="su-strength-bar"></div></div>
+                <span class="lp-err" id="su-pw-err"></span>
+              </div>
+              <button class="lp-submit" id="suSubmit">Create Account</button>
+              <p class="lp-switch">Have an account? <a href="#" data-switch="signin">Sign in</a></p>
+            </div>
+
+            <div class="lp-panel" id="panel-forgot" style="display:none">
+              <p style="font-size:13px;color:#555;margin-bottom:12px;">Enter your email and we'll send a reset link.</p>
+              <div class="lp-field">
+                <input type="email" id="fp-email" placeholder="Email address"/>
+                <span class="lp-err" id="fp-err"></span>
+              </div>
+              <button class="lp-submit" id="fpSubmit">Send Reset Link</button>
+              <p class="lp-switch"><a href="#" id="backToSignin">← Back to Sign In</a></p>
+            </div>
+          </div>
+
+          <p class="lp-status" id="lpStatus"></p>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV (site-wide, unchanged) -->
+<div class="mob-overlay" id="mobOverlay">
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-close" id="mobClose"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-logo">Beyond The Pass</div>
+    <nav class="mob-links">
+      <a href="index.html#home">Home</a>
+      <a href="tour.html">Tours</a>
+      <a href="place.html">Places</a>
+      <a href="travel-info.html">Travel Info</a>
+      <a href="dzongkhag-map.html">Location</a>
+    </nav>
+    <a href="plan-trip.html" class="mob-cta">Plan My Trip →</a>
+  </div>
+</div>
+
+
+
+<!-- MAP APP -->
+<div id="map-app">
+
+  <div id="side-panel">
+    <div id="panel-toggle" onclick="togglePanel()" title="Toggle dzongkhag list">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </div>
+    <div id="collapsed-hint"></div>
+    <div id="panel-content">
+      <div class="panel-header">
+        <h2>Kingdom of Bhutan</h2>
+        <p>20 Dzongkhags — click any district to see the best places to visit there.</p>
+      </div>
+      <div class="dzong-label">All Dzongkhags</div>
+      <div id="dzong-list"></div>
+    </div>
+  </div>
+
+  <div id="map-wrapper">
+    <div id="map-toolbar">
+      <input id="search-box" type="text" placeholder="Search a dzongkhag…" autocomplete="off" />
+      <button id="layer-btn" onclick="toggleLayerMenu()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Layers
+      </button>
+    </div>
+
+    <div id="map-loading">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10" stroke-opacity=".25"/>
+        <path d="M12 2a10 10 0 0 1 10 10"/>
+      </svg>
+      Loading boundary…
+    </div>
+    <div id="map"></div>
+
+    <div id="layer-menu">
+      <div class="layer-option active" onclick="switchLayer('google')" data-id="google">
+        <div class="swatch" style="background:#e8f5e9;"></div> Standard
+      </div>
+      <div class="layer-option" onclick="switchLayer('satellite')" data-id="satellite">
+        <div class="swatch" style="background:#333;"></div> Satellite
+      </div>
+      <div class="layer-option" onclick="switchLayer('topo')" data-id="topo">
+        <div class="swatch" style="background:#f0ebe3;"></div> Topographic
+      </div>
+      <div class="layer-option" onclick="switchLayer('osm')" data-id="osm">
+        <div class="swatch" style="background:#c9dcdc;"></div> OpenStreetMap
+      </div>
+    </div>
+  </div>
+
+  <div id="dzong-sheet">
+    <div id="sheet-handle-area" onclick="toggleBottomSheet()">
+      <div class="sheet-pill"></div>
+      <div id="sheet-label">20 Dzongkhags — tap to browse</div>
+    </div>
+    <div id="sheet-body">
+      <div class="panel-header">
+        <h2>Kingdom of Bhutan</h2>
+        <p>20 Dzongkhags — tap a district to see the best places to visit there.</p>
+      </div>
+      <div class="dzong-label">All Dzongkhags</div>
+      <div id="dzong-list-mobile"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+function loadScript(src, cb){
+  const s=document.createElement('script');
+  s.src=src; s.onload=cb;
+  s.onerror=()=>{ const el=document.getElementById('map-loading'); if(el) el.textContent='Map library failed to load.'; };
+  document.head.appendChild(s);
+}
+
+const dzongkhags = [
+  { name:'Thimphu', dzongkhag:'Thimphu Dzongkhag', lat:27.4728, lng:89.6393, color:'#0a0a0a', tags:['Capital','Tashichho Dzong','Weekend Market'], desc:'The capital and seat of government. Tashichho Dzong houses the throne room and Central Monk Body. Don\'t miss the Buddha Dordenma statue and the lively weekend market along the river.', link:'index.html#tours' },
+  { name:'Paro', dzongkhag:'Paro Dzongkhag', lat:27.4287, lng:89.4164, color:'#c0392b', tags:["Tiger's Nest",'Rinpung Dzong','National Museum'], desc:'Home to Taktsang Palphug (Tiger\'s Nest), Bhutan\'s most iconic monastery clinging to a cliffside. Rinpung Dzong and the National Museum are easy add-ons for a full day.', link:'index.html#tours' },
+  { name:'Punakha', dzongkhag:'Punakha Dzongkhag', lat:27.5917, lng:89.8756, color:'#8a6d3b', tags:['Punakha Dzong','Suspension Bridge','Chimi Lhakhang'], desc:'Punakha Dzong sits at the confluence of the Mo Chhu and Pho Chhu rivers — widely considered Bhutan\'s most beautiful fortress. Walk the suspension bridge and visit the fertility temple, Chimi Lhakhang.', link:'index.html#tours' },
+  { name:'Bumthang', dzongkhag:'Bumthang Dzongkhag', lat:27.5495, lng:90.7268, color:'#2e7d52', tags:['Jakar Dzong','Kurjey Lhakhang','Burning Lake'], desc:'Bhutan\'s spiritual heartland, with four sacred valleys. Kurjey Lhakhang and Mebar Tsho (the Burning Lake) draw pilgrims year-round.', link:'index.html#tours' },
+  { name:'Haa', dzongkhag:'Haa Dzongkhag', lat:27.3920, lng:89.2789, color:'#5c4a7a', tags:['Hidden Valley','Chele La Pass','Black & White Temples'], desc:'A quiet valley only opened to visitors in 2002. See the Black and White Temples and drive up to Chele La Pass for sweeping Himalayan views.', link:'index.html#tours' },
+  { name:'Gasa', dzongkhag:'Gasa Dzongkhag', lat:27.9050, lng:89.7200, color:'#1a6b5c', tags:['Hot Springs','Laya Village','Snowman Trek'], desc:'Bhutan\'s northernmost, high-altitude district. Soak in the Gasa Tshachu hot springs or trek toward Laya on the legendary Snowman Trek route.', link:'index.html#tours' },
+  { name:'Trongsa', dzongkhag:'Trongsa Dzongkhag', lat:27.5000, lng:90.5083, color:'#a33d2e', tags:['Royal Dynasty','Ta Dzong Museum'], desc:'The ancestral seat of Bhutan\'s monarchy. Trongsa Dzong controls the historic route between east and west, and the Ta Dzong tower now houses a royal history museum.', link:'index.html#tours' },
+  { name:'Wangdue Phodrang', dzongkhag:'Wangdue Phodrang Dzongkhag', lat:27.4853, lng:89.9003, color:'#6b5645', tags:['Phobjikha Valley','Black-Necked Crane'], desc:'Phobjikha valley is the winter home of the rare Black-Necked Crane. Combine with Wangdue Phodrang Dzong overlooking the Puna Tsang Chhu gorge.', link:'index.html#tours' },
+  { name:'Trashigang', dzongkhag:'Trashigang Dzongkhag', lat:27.3330, lng:91.5550, color:'#2c5f8a', tags:['Eastern Culture','Kishuthara Silk'], desc:'Cultural capital of eastern Bhutan, known for its raw silk kishuthara weaving. Trashigang Dzong overlooks the Drangme Chhu river.', link:'index.html#tours' },
+  { name:'Pemagatshel', dzongkhag:'Pemagatshel Dzongkhag', lat:27.0400, lng:91.3600, color:'#a5651f', tags:['Sacred Valley','Off the Beaten Path'], desc:'A remote district holding one of Bhutan\'s beyul, or hidden sacred valleys, largely untouched by tourism.', link:'index.html#tours' },
+  { name:'Mongar', dzongkhag:'Mongar Dzongkhag', lat:27.2740, lng:91.2400, color:'#8e2a5c', tags:['Kheng Heritage','Trade Crossroads'], desc:'Home to the Kheng people and their distinct crafts. Mongar Dzong sits on a ridge along historic east-west trade routes.', link:'index.html#tours' },
+  { name:'Lhuentse', dzongkhag:'Lhuentse Dzongkhag', lat:27.6600, lng:90.8400, color:'#3d4f8a', tags:['Royal Ancestry','Finest Silk'], desc:'Ancestral home of the royal family, with dramatic dzong views above the Kuri Chhu gorge and Bhutan\'s finest handwoven silk.', link:'index.html#tours' },
+  { name:'Trashiyangtse', dzongkhag:'Trashiyangtse Dzongkhag', lat:27.6100, lng:91.5000, color:'#1c7a70', tags:['Chorten Kora','Wood Craft'], desc:'Chorten Kora draws pilgrims from across the region during its annual festival. Also known for hand-turned wooden dapa bowls.', link:'index.html#tours' },
+  { name:'Samdrup Jongkhar', dzongkhag:'Samdrup Jongkhar Dzongkhag', lat:26.8000, lng:91.5100, color:'#b35a2e', tags:['Southern Gateway','Wildlife'], desc:'Bhutan\'s southeastern gateway to India, spanning subtropical lowlands to alpine ridges, home to rare wildlife.', link:'index.html#tours' },
+  { name:'Zhemgang', dzongkhag:'Zhemgang Dzongkhag', lat:27.2100, lng:90.6600, color:'#4a7a3d', tags:['Royal Manas Park','Oral Traditions'], desc:'Traditional Kheng country, bordering Bhutan\'s oldest wildlife reserve, the Royal Manas National Park.', link:'index.html#tours' },
+  { name:'Sarpang', dzongkhag:'Sarpang Dzongkhag', lat:26.8600, lng:90.2700, color:'#a33333', tags:['Manas Corridor','Gelephu Gateway'], desc:'Borders the Manas Tiger Reserve and shares a wildlife corridor with Assam. Gateway to the new Gelephu development region.', link:'index.html#tours' },
+  { name:'Dagana', dzongkhag:'Dagana Dzongkhag', lat:27.0700, lng:89.8800, color:'#6d3d7a', tags:['Ridge-top Dzong','Traditional Medicine'], desc:'Home to a dramatic ridge-top fortress and forests rich in the medicinal plants used in Sowa Rigpa, Bhutan\'s traditional medicine.', link:'index.html#tours' },
+  { name:'Tsirang', dzongkhag:'Tsirang Dzongkhag', lat:27.0200, lng:89.9800, color:'#555555', tags:['Orchards','Mandarin Gardens'], desc:'Terraced hillsides of mandarin, cardamom, and areca orchards, with a strong Lhotshampa cultural heritage.', link:'index.html#tours' },
+  { name:'Chukha', dzongkhag:'Chukha Dzongkhag', lat:27.0550, lng:89.4700, color:'#2e5f8a', tags:['Phuentsholing','Hydropower'], desc:'Home to Phuentsholing, Bhutan\'s commercial gateway to India, and the country\'s first major hydropower dam.', link:'index.html#tours' },
+  { name:'Samtse', dzongkhag:'Samtse Dzongkhag', lat:26.8833, lng:89.0833, color:'#7a5520', tags:['Border Town','Tea Gardens'], desc:'A quiet southwestern border district with tea gardens and small-town charm, rarely visited by tourists.', link:'index.html#tours' }
+];
+
+const seen = new Set();
+const uniqueDzongkhags = dzongkhags.filter(d=>{ if(seen.has(d.name)) return false; seen.add(d.name); return true; });
+
+let bottomSheetOpen = false;
+function toggleBottomSheet(){
+  bottomSheetOpen = !bottomSheetOpen;
+  const sheet=document.getElementById('dzong-sheet');
+  const label=document.getElementById('sheet-label');
+  sheet.classList.toggle('open', bottomSheetOpen);
+  label.textContent = bottomSheetOpen ? 'Swipe down to close' : '20 Dzongkhags — tap to browse';
+}
+
+function initDzongkhagMap(){
+
+  const isMobile = () => window.innerWidth <= 640;
+
+  const tileLayers = {
+    google:    L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { attribution:'© Google Maps', maxZoom:20 }),
+    satellite: L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { attribution:'© Google Maps', maxZoom:20 }),
+    topo:      L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',    { attribution:'© OpenTopoMap', maxZoom:17 }),
+    osm:       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',  { attribution:'© OpenStreetMap', maxZoom:19 })
+  };
+  let currentLayerKey = 'google';
+
+  const map = L.map('map', {
+    center:[27.45,90.5],
+    zoom: isMobile() ? 8 : 9,
+    layers:[tileLayers.google],
+    zoomControl:false,
+    zoomDelta:0.5,
+    zoomSnap:0.5,
+    maxBounds:[[24,84],[32,97]],
+    minZoom:7,
+    maxZoom:12,
+    tap:true,
+    tapTolerance:15
+  });
+
+  L.control.zoom({ position:'bottomright' }).addTo(map);
+  L.control.scale({ position:'bottomright', imperial:false }).addTo(map);
+
+  function makePinIcon(color){
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 28 36">
+      <path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 22 14 22S28 24.5 28 14C28 6.27 21.73 0 14 0z" fill="${color}" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+      <circle cx="14" cy="14" r="5.5" fill="rgba(255,255,255,0.92)"/></svg>`;
+    const wide = window.innerWidth > 640;
+    return L.divIcon({ html:svg, className:'', iconSize:[24,32], iconAnchor:[12,32], popupAnchor: wide ? [154,130] : [0,-32] });
+  }
+
+  const markers = {};
+
+  uniqueDzongkhags.forEach(d=>{
+    const tagsHtml = d.tags.map(t=>`<span class="pu-tag">${t}</span>`).join('');
+    const popupHtml = `
+      <div class="pu-header" style="background:${d.color}">
+        <div class="pu-sub">${d.dzongkhag}</div>
+        <h3>${d.name}</h3>
+      </div>
+      <div class="pu-body">
+        <div class="pu-tags">${tagsHtml}</div>
+        <p class="pu-desc">${d.desc}</p>
+        <a class="pu-link" href="${d.link}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          View tours here
+        </a>
+      </div>`;
+
+    const popupOpts = {
+      maxWidth: Math.min(270, window.innerWidth - 32),
+      autoClose:true, closeOnClick:true, closeButton:true,
+      autoPan:true, autoPanPadding:[16,16],
+      className: window.innerWidth > 900 ? 'popup-right' : ''
+    };
+
+    const marker = L.marker([d.lat,d.lng], { icon: makePinIcon(d.color) })
+      .addTo(map)
+      .bindPopup(popupHtml, popupOpts);
+
+    markers[d.name] = marker;
+
+    if(!isMobile()){
+      let closeTimer=null;
+      const cancelClose=()=>{ if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; } };
+      const scheduleClose=()=>{ closeTimer=setTimeout(()=>{ marker.closePopup(); },120); };
+
+      marker.on('mouseover', ()=>{
+        cancelClose();
+        Object.values(markers).forEach(m=>{ if(m!==marker) m.closePopup(); });
+        marker.openPopup();
+      });
+      marker.on('mouseout', ()=>{ scheduleClose(); });
+      marker.on('popupopen', ()=>{
+        const popupEl = marker.getPopup().getElement();
+        if(!popupEl) return;
+        popupEl.addEventListener('mouseenter', cancelClose);
+        popupEl.addEventListener('mouseleave', scheduleClose);
+      });
+    }
+  });
+
+  const dzongList = document.getElementById('dzong-list');
+  const collapsedHint = document.getElementById('collapsed-hint');
+  let activeChip = null;
+  const dzongListMobile = document.getElementById('dzong-list-mobile');
+
+  uniqueDzongkhags.forEach(d=>{
+    const dot = document.createElement('div');
+    dot.className='hint-dot';
+    dot.style.background=d.color;
+    collapsedHint.appendChild(dot);
+
+    function flyTo(){
+      const z = isMobile() ? 11 : 12;
+      map.setView([d.lat,d.lng], z, { animate:true });
+      setTimeout(()=>markers[d.name].openPopup(),480);
+      if(isMobile() && bottomSheetOpen) toggleBottomSheet();
+    }
+
+    const chip = document.createElement('div');
+    chip.className='dzong-chip';
+    chip.innerHTML = `<div class="dot" style="background:${d.color}"></div><span>${d.name}</span>`;
+    chip.onclick = ()=>{
+      if(activeChip) activeChip.classList.remove('active');
+      chip.classList.add('active');
+      activeChip = chip;
+      flyTo();
+    };
+    dzongList.appendChild(chip);
+
+    const mchip = document.createElement('div');
+    mchip.className='dzong-chip';
+    mchip.innerHTML = `<div class="dot" style="background:${d.color}"></div><span>${d.name}</span>`;
+    mchip.onclick = ()=>{ flyTo(); };
+    dzongListMobile.appendChild(mchip);
+  });
+
+  document.getElementById('search-box').addEventListener('keydown', e=>{
+    if(e.key!=='Enter') return;
+    const q = e.target.value.trim().toLowerCase();
+    const d = uniqueDzongkhags.find(x=>x.name.toLowerCase().includes(q));
+    if(d){
+      const z = isMobile() ? 11 : 12;
+      map.setView([d.lat,d.lng], z, { animate:true });
+      setTimeout(()=>markers[d.name].openPopup(),480);
+      e.target.blur();
+      if(isMobile() && bottomSheetOpen) toggleBottomSheet();
+    }
+  });
+
+  function switchLayer(key){
+    map.removeLayer(tileLayers[currentLayerKey]);
+    map.addLayer(tileLayers[key]);
+    currentLayerKey = key;
+    document.querySelectorAll('.layer-option').forEach(el=>el.classList.toggle('active', el.dataset.id===key));
+    document.getElementById('layer-menu').classList.remove('open');
+  }
+  window.switchLayer = switchLayer;
+
+  const FALLBACK = [
+    [89.535,26.720],[89.610,26.718],[89.745,26.697],[89.900,26.718],
+    [89.980,26.745],[90.150,26.780],[90.370,26.877],[90.510,26.920],
+    [90.735,26.990],[91.000,26.855],[91.290,26.803],[91.450,26.812],
+    [91.635,26.812],[91.800,26.940],[91.990,27.065],[92.050,27.210],
+    [92.123,27.290],[92.080,27.490],[92.055,27.630],
+    [91.960,27.800],[91.840,27.940],[91.700,28.040],[91.550,28.060],
+    [91.380,28.050],[91.200,27.970],[91.020,28.050],[90.740,28.250],
+    [90.560,28.260],[90.360,28.230],[90.100,28.160],[89.860,28.050],
+    [89.700,27.990],[89.440,27.800],[89.300,27.720],[89.035,27.500],
+    [88.990,27.400],[88.940,27.290],[88.760,27.310],[88.760,27.180],
+    [88.749,27.080],[88.760,26.980],[88.870,26.945],[89.000,26.950],
+    [89.130,26.880],[89.250,26.845],[89.400,26.785],[89.535,26.720]
+  ];
+
+  function applyMask(coords){
+    const world=[[-180,-90],[180,-90],[180,90],[-180,90],[-180,-90]];
+    L.geoJSON({type:'Feature',geometry:{type:'Polygon',coordinates:[world,coords]}},{
+      style:{fillColor:'#f5f5f5',fillOpacity:0.9,color:'transparent',weight:0},interactive:false
+    }).addTo(map);
+    L.geoJSON({type:'Feature',geometry:{type:'Polygon',coordinates:[coords]}},{
+      style:{fillColor:'transparent',fillOpacity:0,color:'#0a0a0a',weight:2,opacity:0.8},interactive:false
+    }).addTo(map);
+  }
+
+  async function loadMask(){
+    try{
+      const res = await fetch('https://raw.githubusercontent.com/georgique/world-geojson/develop/countries/bhutan.json');
+      if(!res.ok) throw new Error();
+      const data = await res.json();
+      const geom = data.geometry || data.features?.[0]?.geometry;
+      if(!geom) throw new Error();
+      let rings=[];
+      if(geom.type==='Polygon') rings=geom.coordinates;
+      else if(geom.type==='MultiPolygon') geom.coordinates.forEach(p=>rings.push(...p));
+      const clipped = rings.map(r=>r.map(([lng,lat])=>[lng,Math.min(lat,28.38)]));
+      const world=[[-180,-90],[180,-90],[180,90],[-180,90],[-180,-90]];
+      L.geoJSON({type:'Feature',geometry:{type:'Polygon',coordinates:[world,...clipped]}},{
+        style:{fillColor:'#f5f5f5',fillOpacity:0.9,color:'transparent',weight:0},interactive:false
+      }).addTo(map);
+      clipped.forEach(r=>{
+        L.geoJSON({type:'Feature',geometry:{type:'Polygon',coordinates:[r]}},{
+          style:{fillColor:'transparent',fillOpacity:0,color:'#0a0a0a',weight:2,opacity:0.75},interactive:false
+        }).addTo(map);
+      });
+    }catch(e){ applyMask(FALLBACK); }
+    const loadingEl = document.getElementById('map-loading');
+    if(loadingEl) loadingEl.style.display='none';
+  }
+
+  loadMask();
+}
+
+window.togglePanel = () => document.getElementById('side-panel').classList.toggle('open');
+window.toggleLayerMenu = () => {
+  document.getElementById('layer-menu').classList.toggle('open');
+};
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#layer-btn') && !e.target.closest('#layer-menu'))
+    document.getElementById('layer-menu').classList.remove('open');
+});
+
+(function(){
+  const sheet=document.getElementById('dzong-sheet');
+  const handle=document.getElementById('sheet-handle-area');
+  let startY=0, dragging=false;
+
+  handle.addEventListener('touchstart', e=>{
+    startY=e.touches[0].clientY;
+    dragging=true;
+  }, { passive:true });
+
+  document.addEventListener('touchend', e=>{
+    if(!dragging) return;
+    dragging=false;
+    const diff = e.changedTouches[0].clientY - startY;
+    if(diff>60 && bottomSheetOpen) toggleBottomSheet();
+    else if(diff<-60 && !bottomSheetOpen) toggleBottomSheet();
+  }, { passive:true });
+})();
+
+loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', initDzongkhagMap);
+</script>
+</body>
+</html>
