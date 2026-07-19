@@ -200,7 +200,7 @@ input, select, textarea { font-family: inherit; }
 .nav-a:hover             { color: var(--black); }
 .nav-a:hover::after      { width: 100%; }
 
-.hdr-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.hdr-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; position: relative; z-index: 5; }
 .hdr-btn {
   padding: 9px 22px;
   background: var(--black); color: var(--white);
@@ -210,7 +210,7 @@ input, select, textarea { font-family: inherit; }
 }
 .hdr-btn:hover { background: var(--dark); }
 
-.burger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+.burger { display: none; flex-direction: column; gap: 5px; padding: 4px; flex-shrink: 0; position: relative; z-index: 5; }
 .burger span { display: block; width: 22px; height: 1.5px; background: var(--black); border-radius: 2px; transition: var(--t); }
 .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .burger.open span:nth-child(2) { opacity: 0; }
@@ -1185,8 +1185,8 @@ input, select, textarea { font-family: inherit; }
   .contact-grid { grid-template-columns: 1fr; gap: 48px; }
 }
 @media (max-width: 768px) {
-  .nav, .hdr-btn { display: none; }
-  .burger        { display: flex; }
+  .nav, .hdr-btn { display: none !important; }
+  .burger        { display: flex !important; }
   .wrap          { padding: 0 20px; }
   .section       { padding: 72px 0; }
   .hero-stats    { flex-direction: column; border-radius: var(--r-xl); padding: 16px 28px; }
